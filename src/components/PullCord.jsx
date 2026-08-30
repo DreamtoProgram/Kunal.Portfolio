@@ -7,6 +7,7 @@ export const PullCord = ({ isDark, onToggleTheme }) => {
   const [isDragging, setIsDragging] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const [showFlash, setShowFlash] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   const startPosRef = useRef({ x: 0, y: 0 });
   const currentPosRef = useRef({ x: 0, y: 0 });
@@ -14,10 +15,20 @@ export const PullCord = ({ isDark, onToggleTheme }) => {
   const animationFrameRef = useRef(null);
   const handleRef = useRef(null);
 
-  const baseHeight = 110; // Resting string length in px
-  const maxPullY = 90;    // Maximum pull stretch in px
-  const maxPullX = 50;    // Maximum horizontal sway in px
-  const triggerThreshold = 48; // Pull distance needed to toggle
+  // Detect mobile screen width for optimal responsive cord physics & positioning
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 640);
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const baseHeight = isMobile ? 52 : 110; // Resting string length in px (compact on mobile to prevent hero overlap)
+  const maxPullY = isMobile ? 60 : 90;    // Maximum pull stretch in px
+  const maxPullX = isMobile ? 30 : 50;    // Maximum horizontal sway in px
+  const triggerThreshold = isMobile ? 30 : 48; // Pull distance needed to toggle
 
   // Check if reduced motion is preferred
   const prefersReducedMotion = useRef(false);
@@ -70,95 +81,110 @@ export const PullCord = ({ isDark, onToggleTheme }) => {
       ) {
         setPullX(0);
         setPullY(0);
-      } else {
-        setPullX(posX);
-        setPullY(posY);
-        animationFrameRef.current = requestAnimationFrame(tick);
+        return;
       }
+
+      setPullX(posX);
+      setPullY(posY);
+      animationFrameRef.current = requestAnimationFrame(tick);
     };
 
     animationFrameRef.current = requestAnimationFrame(tick);
   }, []);
 
-  // Trigger switch function
-  const triggerSwitch = useCallback(() => {
-    playSwitchSound(!isDark);
-    onToggleTheme();
-    
+  // Flash illumination effect on toggle
+  const triggerFlash = useCallback(() => {
     setShowFlash(true);
-    setTimeout(() => setShowFlash(false), 300);
-  }, [isDark, onToggleTheme]);
+    setTimeout(() => setShowFlash(false), 240);
+  }, []);
 
-  // Pointer Down (Mouse, Touch, Pen)
+  // Unified Pointer Event Handlers
   const handlePointerDown = (e) => {
-    if (e.button !== 0 && e.pointerType === 'mouse') return;
-    
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (animationFrameRef.current) {
+      cancelAnimationFrame(animationFrameRef.current);
+    }
+
+    if (e.target.setPointerCapture) {
+      try {
+        e.target.setPointerCapture(e.pointerId);
+      } catch (err) {
+        // Fallback
+      }
+    }
+
     isDraggingRef.current = true;
     setIsDragging(true);
     startPosRef.current = { x: e.clientX, y: e.clientY };
-    currentPosRef.current = { x: 0, y: 0 };
-    
-    if (handleRef.current) {
-      try {
-        handleRef.current.setPointerCapture(e.pointerId);
-      } catch (err) {
-        // fallback
-      }
-    }
-    
-    playTensionSound();
+    currentPosRef.current = { x: e.clientX, y: e.clientY };
   };
 
-  // Pointer Move
   const handlePointerMove = (e) => {
     if (!isDraggingRef.current) return;
+    e.preventDefault();
 
-    const rawDeltaY = Math.max(0, e.clientY - startPosRef.current.y);
-    const rawDeltaX = e.clientX - startPosRef.current.x;
+    const deltaY = Math.max(0, e.clientY - startPosRef.current.y);
+    const deltaX = e.clientX - startPosRef.current.x;
 
-    // Apply smooth elastic resistance
-    const dampedY = Math.min(maxPullY, rawDeltaY * 0.65);
-    const clampedX = Math.max(-maxPullX, Math.min(maxPullX, rawDeltaX * 0.45));
+    // Logarithmic easing for physical tension feel
+    const tension = Math.min(1, deltaY / (maxPullY * 1.5));
+    if (tension > 0.35 && tension < 0.4) {
+      playTensionSound();
+    }
 
-    currentPosRef.current = { x: clampedX, y: dampedY };
-    setPullY(dampedY);
-    setPullX(clampedX);
+    const currentY = Math.min(maxPullY, deltaY * 0.85);
+    const currentX = Math.max(-maxPullX, Math.min(maxPullX, deltaX * 0.45));
+
+    setPullY(currentY);
+    setPullX(currentX);
   };
 
-  // Pointer Up / Release
   const handlePointerUp = (e) => {
     if (!isDraggingRef.current) return;
+    e.preventDefault();
+
+    if (e.target.hasPointerCapture && e.target.hasPointerCapture(e.pointerId)) {
+      try {
+        e.target.releasePointerCapture(e.pointerId);
+      } catch (err) {
+        // Fallback
+      }
+    }
+
+    const finalY = pullY;
+    const finalX = pullX;
+
     isDraggingRef.current = false;
     setIsDragging(false);
 
-    if (handleRef.current) {
-      try {
-        handleRef.current.releasePointerCapture(e.pointerId);
-      } catch (err) {
-        // fallback
-      }
-    }
-
-    const finalY = currentPosRef.current.y;
-    const finalX = currentPosRef.current.x;
-
+    // Trigger toggle if pulled past threshold
     if (finalY >= triggerThreshold) {
-      triggerSwitch();
+      playSwitchSound();
+      triggerFlash();
+      onToggleTheme();
+      runSpringAnimation(finalX * 0.4, 25);
+    } else {
+      runSpringAnimation(finalX, finalY);
     }
-
-    runSpringAnimation(finalX, finalY);
   };
 
-  // Keyboard accessibility (Enter / Space)
+  // Keyboard accessibility (Space or Enter to pull)
   const handleKeyDown = (e) => {
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
-      triggerSwitch();
-      runSpringAnimation(6, 32);
+      setPullY(triggerThreshold + 10);
+      playSwitchSound();
+      triggerFlash();
+      onToggleTheme();
+      setTimeout(() => {
+        runSpringAnimation(0, triggerThreshold + 10);
+      }, 100);
     }
   };
 
-  // Cleanup on unmount
+  // Cleanup animation frame
   useEffect(() => {
     return () => {
       if (animationFrameRef.current) {
@@ -167,16 +193,15 @@ export const PullCord = ({ isDark, onToggleTheme }) => {
     };
   }, []);
 
-  const totalLength = baseHeight + pullY;
-
-  // Exact anchor coordinates inside coordinate plane
+  // Bézier Curve Parameters
   const originX = 80;
   const originY = 0;
+  const totalLength = baseHeight + pullY;
   const endX = originX + pullX;
-  const endY = originY + totalLength;
+  const endY = totalLength;
 
-  // Natural subtle wave and catenary curve control points
-  const ctrlX1 = originX + pullX * 0.18 + Math.sin(pullY * 0.08) * 2;
+  // Natural physics curve computation
+  const ctrlX1 = originX + pullX * 0.25 + Math.sin(pullY * 0.08) * 1.5;
   const ctrlY1 = totalLength * 0.42;
   const ctrlX2 = originX + pullX * 0.75 - Math.cos(pullY * 0.08) * 1.5;
   const ctrlY2 = totalLength * 0.76;
@@ -185,7 +210,7 @@ export const PullCord = ({ isDark, onToggleTheme }) => {
 
   return (
     <div
-      className="fixed top-0 right-7 sm:right-14 md:right-20 lg:right-24 z-[100] select-none pointer-events-auto"
+      className="fixed top-0 right-28 sm:right-10 md:right-16 lg:right-20 z-[100] select-none pointer-events-auto"
       role="region"
       aria-label="Theme switch pull cord"
     >
@@ -282,8 +307,8 @@ export const PullCord = ({ isDark, onToggleTheme }) => {
             </div>
           </div>
 
-          {/* Subtle & Minimal Handwritten "Pull the cord!" Instruction */}
-          <div className="absolute right-full mr-2.5 top-1/2 -translate-y-1/2 flex items-center pointer-events-none opacity-90 transition-transform duration-200">
+          {/* Handwritten "Pull the cord!" Instruction - Desktop & Tablet Only to prevent overlapping mobile hero text */}
+          <div className="hidden sm:flex absolute right-full mr-2.5 top-1/2 -translate-y-1/2 items-center pointer-events-none opacity-90 transition-transform duration-200">
             <div className="flex items-center gap-1 whitespace-nowrap">
               <span
                 className={`font-handwriting text-xs sm:text-sm font-bold tracking-normal select-none transition-colors duration-300 ${
