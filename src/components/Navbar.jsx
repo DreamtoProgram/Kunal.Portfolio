@@ -19,6 +19,7 @@ export const Navbar = ({ isDark, activeSection, onOpenResume }) => {
     { label: 'About', href: '#about', id: 'about' },
     { label: 'Skills', href: '#skills', id: 'skills' },
     { label: 'Projects', href: '#projects', id: 'projects' },
+    { label: 'Hackathons', href: '#hackathons', id: 'hackathons' },
     { label: 'Certificates', href: '#certifications', id: 'certifications' },
     { label: 'Education', href: '#education', id: 'education' },
     { label: 'Contact', href: '#contact', id: 'contact' },

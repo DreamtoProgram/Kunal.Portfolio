@@ -226,3 +226,59 @@ export const educationData = [
     description: "Foundation secondary schooling under PSEB curriculum with academic distinction in Science and Mathematics."
   }
 ];
+
+export const hackathonsData = [
+  {
+    id: "code-flux-2026",
+    event: "CODE FLUX 2026",
+    tagline: "36-Hour Hackathon",
+    date: "11th–13th September 2026",
+    location: "Lovely Professional University",
+    organizer: "CodingBlocks LPU",
+    organizerDetail: "Division of Youth Affairs, Student Welfare Wing, LPU",
+    participation: "Participant",
+    summary: "A 36-hour hackathon bringing together students to solve practical challenges through rapid, collaborative software development.",
+    project: {
+      name: "Mess Management System",
+      type: "Full-Stack Web Application",
+      description: "A full-stack mess management platform designed around the college mess ecosystem to centralize mess-related operations and provide digital solutions to common student and administration problems.",
+      contribution: "Worked as part of the team to design and develop the full-stack Mess Management System, contributing to the backend and overall web application development.",
+      techStack: {
+        backend: ["Python", "FastAPI"],
+        database: ["MongoDB"],
+        tools: ["Antigravity", "ChatGPT"]
+      },
+      team: [
+        "Kunal Kumar Singh",
+        "Divya Satya",
+        "Sahil Kumar Singh",
+        "Krishna Mehra"
+      ]
+    },
+    certificates: [
+      {
+        id: "code-flux-cert",
+        name: "CODE FLUX 2026 — Certificate of Participation",
+        fullName: "Certificate of Participation - CODE FLUX 2026 (36-Hour Hackathon)",
+        issuer: "CodingBlocks LPU · Lovely Professional University",
+        date: "11th–13th September 2026",
+        imageUrl: "/code_flux_2026_certificate.png",
+        verifyUrl: "https://verification.givemycertificate.com/v/65a16dc7-35a1-4e57-b3d0-b5d054387016",
+        badge: "36-Hour Hackathon",
+        type: "Hackathon Participation"
+      },
+      {
+        id: "piyush-garg-cert",
+        name: "Seminar Session by Piyush Garg",
+        fullName: "Certificate of Participation - Seminar Session by Piyush Garg",
+        issuer: "CodingBlocks LPU · Lovely Professional University",
+        date: "September 2026",
+        imageUrl: "/piyush_garg_seminar_certificate.png",
+        verifyUrl: "https://verification.givemycertificate.com/v/492c3d08-46c8-be89-3839d3bfefa1",
+        badge: "Specialized Seminar",
+        type: "Seminar Participation"
+      }
+    ]
+  }
+];
+

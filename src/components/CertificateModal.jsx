@@ -1,5 +1,5 @@
 import React from 'react';
-import { X, Award, ExternalLink, Calendar, CheckCircle2, ShieldCheck, Copy, Check } from 'lucide-react';
+import { X, Award, ExternalLink, Calendar, CheckCircle2, ShieldCheck, Copy, Check, FileCheck } from 'lucide-react';
 import { MicrosoftLogo, OracleLogo, PythonLogo, SnowflakeLogo, SqlLogo } from './BrandLogos';
 
 export const CertificateModal = ({ isDark, certificate, onClose }) => {
@@ -28,30 +28,38 @@ export const CertificateModal = ({ isDark, certificate, onClose }) => {
       case 'sql':
         return <SqlLogo className="w-12 h-12" />;
       default:
-        return <Award className={`w-12 h-12 ${isDark ? 'text-white' : 'text-black'}`} />;
+        return <Award className={`w-8 h-8 ${isDark ? 'text-white' : 'text-black'}`} />;
     }
   };
 
+  const hasImage = Boolean(certificate.imageUrl);
+
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/75 backdrop-blur-sm animate-fadeIn">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-sm animate-fadeIn">
       <div
-        className={`rounded-2xl max-w-lg w-full overflow-hidden shadow-2xl border transform animate-scaleUp ${
+        className={`rounded-2xl ${
+          hasImage ? 'max-w-2xl' : 'max-w-lg'
+        } w-full max-h-[90vh] overflow-y-auto shadow-2xl border transform animate-scaleUp ${
           isDark ? 'bg-zinc-950 border-zinc-800 text-white' : 'bg-white border-neutral-300 text-black'
         }`}
       >
         {/* Header */}
         <div
-          className={`p-6 flex items-center justify-between relative border-b ${
+          className={`p-6 flex items-center justify-between sticky top-0 z-10 border-b ${
             isDark ? 'bg-black border-zinc-800' : 'bg-neutral-50 border-neutral-200'
           }`}
         >
-          <div className="flex items-center gap-3.5">
+          <div className="flex items-center gap-3.5 pr-2">
             <div
-              className={`w-12 h-12 rounded-xl flex items-center justify-center border ${
+              className={`w-12 h-12 rounded-xl flex items-center justify-center border flex-shrink-0 ${
                 isDark ? 'bg-zinc-900 border-zinc-700' : 'bg-white border-neutral-300 shadow-xs'
               }`}
             >
-              {renderLogo(certificate.iconType)}
+              {hasImage ? (
+                <FileCheck className={`w-6 h-6 ${isDark ? 'text-white' : 'text-black'}`} />
+              ) : (
+                renderLogo(certificate.iconType)
+              )}
             </div>
             <div>
               <span
@@ -61,7 +69,7 @@ export const CertificateModal = ({ isDark, certificate, onClose }) => {
               >
                 {certificate.issuer}
               </span>
-              <h3 className="text-lg font-black leading-tight">
+              <h3 className="text-base sm:text-lg font-black leading-tight mt-0.5">
                 {certificate.name}
               </h3>
             </div>
@@ -69,7 +77,7 @@ export const CertificateModal = ({ isDark, certificate, onClose }) => {
 
           <button
             onClick={onClose}
-            className={`p-2 rounded-xl transition-colors focus:outline-none ${
+            className={`p-2 rounded-xl transition-colors focus:outline-none flex-shrink-0 ${
               isDark ? 'text-zinc-400 hover:text-white hover:bg-zinc-800' : 'text-neutral-500 hover:text-black hover:bg-neutral-200'
             }`}
             aria-label="Close modal"
@@ -80,6 +88,21 @@ export const CertificateModal = ({ isDark, certificate, onClose }) => {
 
         {/* Modal Body */}
         <div className="p-6 space-y-5">
+          {/* Certificate Original Image View (When Available) */}
+          {hasImage && (
+            <div className={`p-2.5 rounded-2xl border ${
+              isDark ? 'bg-black border-zinc-800' : 'bg-neutral-100 border-neutral-200'
+            }`}>
+              <div className="rounded-xl overflow-hidden shadow-sm border border-neutral-300 dark:border-zinc-800 bg-neutral-200 dark:bg-zinc-900">
+                <img
+                  src={certificate.imageUrl}
+                  alt={certificate.fullName || certificate.name}
+                  className="w-full h-auto object-contain max-h-[55vh] select-none mx-auto block"
+                />
+              </div>
+            </div>
+          )}
+
           {/* Official Full Title */}
           <div>
             <div
@@ -87,10 +110,10 @@ export const CertificateModal = ({ isDark, certificate, onClose }) => {
                 isDark ? 'text-zinc-400' : 'text-neutral-500'
               }`}
             >
-              Credential Title
+              Certificate Record
             </div>
-            <p className={`text-sm font-bold ${isDark ? 'text-white' : 'text-black'}`}>
-              {certificate.fullName}
+            <p className={`text-sm sm:text-base font-black ${isDark ? 'text-white' : 'text-black'}`}>
+              {certificate.fullName || certificate.name}
             </p>
           </div>
 
@@ -102,7 +125,7 @@ export const CertificateModal = ({ isDark, certificate, onClose }) => {
           >
             <div>
               <div className={`text-xs font-bold ${isDark ? 'text-zinc-400' : 'text-neutral-500'}`}>
-                Issue Date
+                Date Issued
               </div>
               <div className={`text-sm font-black flex items-center gap-1.5 mt-0.5 ${isDark ? 'text-white' : 'text-black'}`}>
                 <Calendar className={`w-4 h-4 ${isDark ? 'text-white' : 'text-black'}`} />
@@ -111,16 +134,16 @@ export const CertificateModal = ({ isDark, certificate, onClose }) => {
             </div>
             <div>
               <div className={`text-xs font-bold ${isDark ? 'text-zinc-400' : 'text-neutral-500'}`}>
-                Verification Status
+                Status
               </div>
               <div className="text-sm font-bold text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5 mt-0.5">
                 <ShieldCheck className="w-4 h-4" />
-                <span>Verified Credential</span>
+                <span>Verified Record</span>
               </div>
             </div>
           </div>
 
-          {/* Credential ID */}
+          {/* Credential ID (If Present) */}
           {certificate.credentialId && (
             <div>
               <div
@@ -160,7 +183,7 @@ export const CertificateModal = ({ isDark, certificate, onClose }) => {
             </div>
           )}
 
-          {/* Skills Covered */}
+          {/* Skills Covered (If Present) */}
           {certificate.skills && certificate.skills.length > 0 && (
             <div>
               <div
@@ -215,12 +238,12 @@ export const CertificateModal = ({ isDark, certificate, onClose }) => {
                   : 'bg-black hover:bg-neutral-800 text-white shadow-black/20'
               }`}
             >
-              <span>Verify on Official Site</span>
+              <span>Verify Certificate</span>
               <ExternalLink className="w-3.5 h-3.5" />
             </a>
           ) : (
             <span className={`text-xs font-bold italic ${isDark ? 'text-zinc-400' : 'text-neutral-500'}`}>
-              Official Certificate Record
+              Official Record
             </span>
           )}
         </div>

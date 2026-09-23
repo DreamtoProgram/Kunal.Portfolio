@@ -4,6 +4,7 @@ import { Hero } from './components/Hero';
 import { About } from './components/About';
 import { Skills } from './components/Skills';
 import { Projects } from './components/Projects';
+import { Hackathons } from './components/Hackathons';
 import { Certifications } from './components/Certifications';
 import { Education } from './components/Education';
 import { Contact } from './components/Contact';
@@ -58,7 +59,7 @@ export function App() {
 
   // Intersection Observer for scroll spying
   useEffect(() => {
-    const sections = ['home', 'about', 'skills', 'projects', 'certifications', 'education', 'contact'];
+    const sections = ['home', 'about', 'skills', 'projects', 'hackathons', 'certifications', 'education', 'contact'];
     
     const handleScrollSpy = () => {
       const scrollPosition = window.scrollY + 200;
@@ -110,13 +111,16 @@ export function App() {
         {/* 4. Projects Section */}
         <Projects isDark={isDark} onSelectProject={(project) => setSelectedProject(project)} />
 
-        {/* 5. Certifications Section */}
+        {/* 5. Hackathons & Events Section */}
+        <Hackathons isDark={isDark} onSelectCertificate={(cert) => setSelectedCertificate(cert)} />
+
+        {/* 6. Certifications Section */}
         <Certifications isDark={isDark} onSelectCertificate={(cert) => setSelectedCertificate(cert)} />
 
-        {/* 6. Education Section */}
+        {/* 7. Education Section */}
         <Education isDark={isDark} />
 
-        {/* 7. Contact Section */}
+        {/* 8. Contact Section */}
         <Contact isDark={isDark} />
       </main>
 
