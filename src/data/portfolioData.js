@@ -263,7 +263,7 @@ export const hackathonsData = [
         issuer: "CodingBlocks LPU · Lovely Professional University",
         date: "11th–13th September 2026",
         imageUrl: "/code_flux_2026_certificate.png",
-        verifyUrl: "https://verification.givemycertificate.com/v/65a16dc7-35a1-4e57-b3d0-b5d054387016",
+        verifyUrl: "https://verification.givemycertificate.com/v/65a16dc7-35a1-4e57-b31d-b5da54387016",
         badge: "36-Hour Hackathon",
         type: "Hackathon Participation"
       },
@@ -274,7 +274,7 @@ export const hackathonsData = [
         issuer: "CodingBlocks LPU · Lovely Professional University",
         date: "September 2026",
         imageUrl: "/piyush_garg_seminar_certificate.png",
-        verifyUrl: "https://verification.givemycertificate.com/v/492c3d08-46c8-be89-3839d3bfefa1",
+        verifyUrl: "https://verification.givemycertificate.com/v/e728ee02-85f3-471c-93d7-313550b1af62",
         badge: "Specialized Seminar",
         type: "Seminar Participation"
       }
