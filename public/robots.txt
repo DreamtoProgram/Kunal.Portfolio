@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+
+# LinkedInBot and general web crawlers
+User-agent: LinkedInBot
+Allow: /
