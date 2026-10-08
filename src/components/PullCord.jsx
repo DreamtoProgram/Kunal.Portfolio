@@ -210,7 +210,7 @@ export const PullCord = ({ isDark, onToggleTheme }) => {
 
   return (
     <div
-      className="fixed top-0 right-28 sm:right-10 md:right-16 lg:right-20 z-[100] select-none pointer-events-auto"
+      className="fixed top-0 right-4 sm:right-10 md:right-16 lg:right-20 z-[100] select-none pointer-events-auto"
       role="region"
       aria-label="Theme switch pull cord"
     >
@@ -307,8 +307,8 @@ export const PullCord = ({ isDark, onToggleTheme }) => {
             </div>
           </div>
 
-          {/* Handwritten "Pull the cord!" Instruction - Desktop & Tablet Only to prevent overlapping mobile hero text */}
-          <div className="hidden sm:flex absolute right-full mr-2.5 top-1/2 -translate-y-1/2 items-center pointer-events-none opacity-90 transition-transform duration-200">
+          {/* Handwritten "Pull the cord!" Instruction - Visible across mobile and desktop with consistent opacity */}
+          <div className="flex absolute right-full mr-2 sm:mr-2.5 top-1/2 -translate-y-1/2 items-center pointer-events-none opacity-90 transition-transform duration-200">
             <div className="flex items-center gap-1 whitespace-nowrap">
               <span
                 className={`font-handwriting text-xs sm:text-sm font-bold tracking-normal select-none transition-colors duration-300 ${

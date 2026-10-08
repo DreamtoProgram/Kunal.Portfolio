@@ -130,8 +130,8 @@ export const Navbar = ({ isDark, activeSection, onOpenResume }) => {
             </div>
           </nav>
 
-          {/* Mobile Menu Button */}
-          <div className="flex md:hidden items-center space-x-2">
+          {/* Mobile Menu Button - Shifted left on mobile to accommodate top right pull cord */}
+          <div className="flex md:hidden items-center space-x-2 mr-28 sm:mr-0">
             <button
               onClick={onOpenResume}
               className={`p-2 rounded-xl text-xs font-bold transition-colors ${
