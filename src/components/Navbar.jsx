@@ -130,8 +130,8 @@ export const Navbar = ({ isDark, activeSection, onOpenResume }) => {
             </div>
           </nav>
 
-          {/* Mobile Menu Button - Positioned comfortably to the left of the top-right pull cord */}
-          <div className="flex md:hidden items-center space-x-2 mr-32 sm:mr-0">
+          {/* Mobile Menu Button - Positioned in the green rectangular box next to the pull cord */}
+          <div className="flex md:hidden items-center space-x-2 mr-10 sm:mr-0">
             <button
               onClick={onOpenResume}
               className={`p-2 rounded-xl text-xs font-bold transition-colors ${
