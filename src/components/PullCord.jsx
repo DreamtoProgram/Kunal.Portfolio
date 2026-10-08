@@ -309,7 +309,7 @@ export const PullCord = ({ isDark, onToggleTheme }) => {
 
           {/* Handwritten "Pull the cord!" Instruction - Visible across mobile and desktop with consistent opacity */}
           <div className="flex absolute right-full mr-2 sm:mr-2.5 top-1/2 -translate-y-1/2 items-center pointer-events-none opacity-90 transition-transform duration-200">
-            <div className="flex items-center gap-1 whitespace-nowrap">
+            <div className="flex items-center gap-1.5 whitespace-nowrap">
               <span
                 className={`font-handwriting text-xs sm:text-sm font-bold tracking-normal select-none transition-colors duration-300 ${
                   isDark ? 'text-zinc-300' : 'text-black'
@@ -318,27 +318,26 @@ export const PullCord = ({ isDark, onToggleTheme }) => {
                 Pull the cord!
               </span>
 
-              {/* Small delicate curved arrow */}
+              {/* Direct pointer arrow pointing precisely at the cord bead */}
               <svg
-                width="20"
-                height="15"
-                viewBox="0 0 28 20"
+                width="22"
+                height="16"
+                viewBox="0 0 24 16"
                 fill="none"
                 className={`transform transition-colors duration-300 ${
                   isDark ? 'text-zinc-300' : 'text-black'
                 }`}
               >
                 <path
-                  d="M2 15 C 8 15, 16 13, 22 5"
+                  d="M 2 8 L 21 8"
                   stroke="currentColor"
-                  strokeWidth="1.8"
+                  strokeWidth="2"
                   strokeLinecap="round"
-                  fill="none"
                 />
                 <path
-                  d="M17 4 L 23 5 L 20 11"
+                  d="M 15 4 L 21 8 L 15 12"
                   stroke="currentColor"
-                  strokeWidth="1.8"
+                  strokeWidth="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
                 />
