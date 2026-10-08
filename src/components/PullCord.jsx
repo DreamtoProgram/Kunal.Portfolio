@@ -210,7 +210,7 @@ export const PullCord = ({ isDark, onToggleTheme }) => {
 
   return (
     <div
-      className="fixed top-0 right-4 sm:right-10 md:right-16 lg:right-20 z-[100] select-none pointer-events-auto"
+      className="fixed top-0 right-6 w-0 sm:w-auto sm:right-10 md:right-16 lg:right-20 z-[100] select-none pointer-events-auto"
       role="region"
       aria-label="Theme switch pull cord"
     >
