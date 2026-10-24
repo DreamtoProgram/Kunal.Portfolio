@@ -43,7 +43,7 @@ export const ResumeModal = ({ isDark, onClose }) => {
             <a
               href="/resume.pdf"
               download="Kunal_Kumar_Singh_Resume.pdf"
-              className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all shadow-md ${
+              className={`home-btn-shine home-btn-glow inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold shadow-md ${
                 isDark
                   ? 'bg-white hover:bg-zinc-200 text-black shadow-white/10'
                   : 'bg-black hover:bg-neutral-800 text-white shadow-black/20'

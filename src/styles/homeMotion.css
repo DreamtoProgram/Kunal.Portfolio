@@ -369,17 +369,134 @@
   .home-orbit-chip-upright,
   .home-cord-sway,
   .home-mouse-wheel,
-  .home-bounce-chevron {
+  .home-bounce-chevron,
+  .portfolio-reveal {
     animation: none !important;
     transform: none !important;
     opacity: 1 !important;
+    transition: none !important;
   }
 
   .home-btn-shine::after {
     display: none !important;
   }
 
-  .home-social-icon:hover {
+  .home-social-icon:hover,
+  .portfolio-card:hover,
+  .portfolio-badge:hover,
+  .portfolio-header-icon:hover {
     transform: none !important;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   9. Portfolio-Wide Motion Graphics & Interactive Polish
+   -------------------------------------------------------------------------- */
+
+/* Scroll Reveal Fade-Up */
+.portfolio-reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.portfolio-reveal.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger delays */
+.portfolio-stagger-1 { transition-delay: 0.08s; }
+.portfolio-stagger-2 { transition-delay: 0.16s; }
+.portfolio-stagger-3 { transition-delay: 0.24s; }
+.portfolio-stagger-4 { transition-delay: 0.32s; }
+.portfolio-stagger-5 { transition-delay: 0.40s; }
+
+/* Interactive Card Elevation & Ambient Violet Glow */
+.portfolio-card {
+  transition: transform 0.26s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.26s ease,
+              border-color 0.22s ease,
+              background-color 0.22s ease;
+  will-change: transform, box-shadow;
+}
+
+.portfolio-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(109, 40, 217, 0.45) !important;
+  box-shadow: 0 14px 30px -10px rgba(109, 40, 217, 0.22),
+              0 0 15px rgba(109, 40, 217, 0.08);
+}
+
+.dark .portfolio-card:hover {
+  border-color: rgba(139, 92, 246, 0.5) !important;
+  box-shadow: 0 16px 32px -10px rgba(139, 92, 246, 0.28),
+              0 0 18px rgba(139, 92, 246, 0.12);
+}
+
+/* Interactive Pill Badge */
+.portfolio-badge {
+  transition: transform 0.18s ease,
+              border-color 0.18s ease,
+              color 0.18s ease,
+              background-color 0.18s ease,
+              box-shadow 0.18s ease;
+}
+
+.portfolio-badge:hover {
+  transform: translateY(-1.5px) scale(1.02);
+  border-color: var(--home-accent-violet) !important;
+  color: var(--home-accent-violet) !important;
+  box-shadow: 0 4px 12px rgba(109, 40, 217, 0.15);
+}
+
+.dark .portfolio-badge:hover {
+  border-color: var(--home-accent-violet-light) !important;
+  color: var(--home-accent-violet-light) !important;
+  box-shadow: 0 4px 14px rgba(139, 92, 246, 0.25);
+}
+
+/* Section Header Icon Glow */
+.portfolio-header-icon {
+  transition: transform 0.25s ease,
+              border-color 0.25s ease,
+              box-shadow 0.25s ease,
+              color 0.25s ease;
+}
+
+.portfolio-header-icon:hover {
+  transform: scale(1.08) rotate(4deg);
+  border-color: var(--home-accent-violet) !important;
+  color: var(--home-accent-violet) !important;
+  box-shadow: 0 0 20px rgba(109, 40, 217, 0.35);
+}
+
+.dark .portfolio-header-icon:hover {
+  border-color: var(--home-accent-violet-light) !important;
+  color: var(--home-accent-violet-light) !important;
+  box-shadow: 0 0 20px rgba(139, 92, 246, 0.45);
+}
+
+/* Timeline Pulse Dot */
+.portfolio-timeline-dot {
+  position: relative;
+}
+
+.portfolio-timeline-dot::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 9999px;
+  background-color: var(--home-accent-violet);
+  opacity: 0.35;
+  animation: homePulsePing 2.5s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+@keyframes homePulsePing {
+  75%, 100% {
+    transform: scale(1.8);
+    opacity: 0;
   }
 }

@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Send, Mail, Phone, MapPin, CheckCircle2, AlertCircle, Sparkles, Loader2 } from 'lucide-react';
 import { personalInfo } from '../data/portfolioData';
 import { sendContactEmail, validateContactForm } from '../utils/emailService';
+import { useScrollReveal } from '../utils/useScrollReveal';
 
 export const Contact = ({ isDark }) => {
+  const [sectionRef, isVisible] = useScrollReveal();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -57,7 +59,6 @@ export const Contact = ({ isDark }) => {
       setFormData({ name: '', email: '', message: '' });
     } catch (err) {
       setStatus('error');
-      // User-friendly error message without technical noise
       setErrorMessage('Something went wrong. Please try again or write directly to ' + personalInfo.email);
     }
   };
@@ -70,6 +71,7 @@ export const Contact = ({ isDark }) => {
 
   return (
     <section
+      ref={sectionRef}
       id="contact"
       className={`py-16 md:py-20 transition-colors duration-300 ${
         isDark ? 'bg-[#09090b] text-white' : 'bg-white text-black'
@@ -77,16 +79,16 @@ export const Contact = ({ isDark }) => {
     >
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Section Header */}
-        <div className="flex items-center gap-3 mb-10">
+        {/* Section Header with Violet Glow on Hover */}
+        <div className={`flex items-center gap-3 mb-10 portfolio-reveal ${isVisible ? 'in-view' : ''}`}>
           <div
-            className={`w-10 h-10 rounded-full border flex items-center justify-center shadow-sm ${
+            className={`w-10 h-10 rounded-full border flex items-center justify-center shadow-sm portfolio-header-icon ${
               isDark
                 ? 'bg-zinc-900 border-zinc-700 text-white'
                 : 'bg-neutral-100 border-neutral-300 text-black'
             }`}
           >
-            <Send className="w-5 h-5 -rotate-12" />
+            <Send className="w-5 h-5 -rotate-12 text-violet-600 dark:text-violet-400" />
           </div>
           <h2
             className={`text-2xl sm:text-3xl font-black tracking-tight ${
@@ -97,11 +99,11 @@ export const Contact = ({ isDark }) => {
           </h2>
         </div>
 
-        {/* 2-Column Contact Layout in Pure Black & White */}
+        {/* 2-Column Contact Layout with Staggered Scroll Reveal */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start">
           
           {/* Left Column: Direct info */}
-          <div className="lg:col-span-5 space-y-6">
+          <div className={`lg:col-span-5 space-y-6 portfolio-reveal portfolio-stagger-1 ${isVisible ? 'in-view' : ''}`}>
             <p
               className={`text-sm sm:text-base leading-relaxed font-medium ${
                 isDark ? 'text-zinc-300' : 'text-neutral-700'
@@ -113,18 +115,18 @@ export const Contact = ({ isDark }) => {
             <div className="space-y-4 pt-2">
               <div className="flex items-center gap-3.5 group">
                 <div
-                  className={`w-9 h-9 rounded-xl border flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform ${
+                  className={`w-9 h-9 rounded-xl border flex items-center justify-center flex-shrink-0 group-hover:scale-110 group-hover:border-violet-500/50 transition-all ${
                     isDark
-                      ? 'bg-zinc-900 border-zinc-700 text-white'
-                      : 'bg-neutral-100 border-neutral-300 text-black'
+                      ? 'bg-zinc-900 border-zinc-700 text-violet-400'
+                      : 'bg-neutral-100 border-neutral-300 text-violet-600'
                   }`}
                 >
                   <Mail className="w-4 h-4" />
                 </div>
                 <a
                   href={`mailto:${personalInfo.email}`}
-                  className={`text-sm font-extrabold hover:underline break-all ${
-                    isDark ? 'text-white' : 'text-black'
+                  className={`text-sm font-extrabold hover:underline break-all transition-colors ${
+                    isDark ? 'text-white hover:text-violet-400' : 'text-black hover:text-violet-600'
                   }`}
                 >
                   {personalInfo.email}
@@ -133,18 +135,18 @@ export const Contact = ({ isDark }) => {
 
               <div className="flex items-center gap-3.5 group">
                 <div
-                  className={`w-9 h-9 rounded-xl border flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform ${
+                  className={`w-9 h-9 rounded-xl border flex items-center justify-center flex-shrink-0 group-hover:scale-110 group-hover:border-violet-500/50 transition-all ${
                     isDark
-                      ? 'bg-zinc-900 border-zinc-700 text-white'
-                      : 'bg-neutral-100 border-neutral-300 text-black'
+                      ? 'bg-zinc-900 border-zinc-700 text-violet-400'
+                      : 'bg-neutral-100 border-neutral-300 text-violet-600'
                   }`}
                 >
                   <Phone className="w-4 h-4" />
                 </div>
                 <a
                   href={`tel:${personalInfo.phone}`}
-                  className={`text-sm font-extrabold hover:underline ${
-                    isDark ? 'text-white' : 'text-black'
+                  className={`text-sm font-extrabold hover:underline transition-colors ${
+                    isDark ? 'text-white hover:text-violet-400' : 'text-black hover:text-violet-600'
                   }`}
                 >
                   {personalInfo.phone}
@@ -153,10 +155,10 @@ export const Contact = ({ isDark }) => {
 
               <div className="flex items-center gap-3.5 group">
                 <div
-                  className={`w-9 h-9 rounded-xl border flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform ${
+                  className={`w-9 h-9 rounded-xl border flex items-center justify-center flex-shrink-0 group-hover:scale-110 group-hover:border-violet-500/50 transition-all ${
                     isDark
-                      ? 'bg-zinc-900 border-zinc-700 text-white'
-                      : 'bg-neutral-100 border-neutral-300 text-black'
+                      ? 'bg-zinc-900 border-zinc-700 text-violet-400'
+                      : 'bg-neutral-100 border-neutral-300 text-violet-600'
                   }`}
                 >
                   <MapPin className="w-4 h-4" />
@@ -173,19 +175,19 @@ export const Contact = ({ isDark }) => {
 
             {/* Quick response banner */}
             <div
-              className={`p-4 rounded-xl border text-xs font-bold flex items-center gap-2 ${
+              className={`p-4 rounded-xl border text-xs font-bold flex items-center gap-2 transition-colors ${
                 isDark
                   ? 'bg-zinc-900/80 border-zinc-800 text-zinc-300'
                   : 'bg-neutral-50 border-neutral-300 text-neutral-800'
               }`}
             >
-              <Sparkles className={`w-4 h-4 flex-shrink-0 ${isDark ? 'text-white' : 'text-black'}`} />
+              <Sparkles className="w-4 h-4 flex-shrink-0 text-violet-500" />
               <span>Typically responding within 24 hours.</span>
             </div>
           </div>
 
-          {/* Right Column: Contact Form */}
-          <div className="lg:col-span-7">
+          {/* Right Column: Contact Form with Violet Focus Glow & Interactive Button */}
+          <div className={`lg:col-span-7 portfolio-reveal portfolio-stagger-2 ${isVisible ? 'in-view' : ''}`}>
             {status === 'success' ? (
               <div
                 className={`rounded-2xl p-8 border text-center space-y-4 animate-fadeIn ${
@@ -206,7 +208,7 @@ export const Contact = ({ isDark }) => {
                 <button
                   type="button"
                   onClick={handleReset}
-                  className={`px-5 py-2.5 rounded-xl text-sm font-extrabold transition-colors shadow-sm focus:outline-none ${
+                  className={`home-btn-shine home-btn-glow px-5 py-2.5 rounded-xl text-sm font-extrabold shadow-sm focus:outline-none ${
                     isDark
                       ? 'bg-white text-black hover:bg-zinc-200'
                       : 'bg-black text-white hover:bg-neutral-800'
@@ -221,7 +223,7 @@ export const Contact = ({ isDark }) => {
                 <div className={`flex items-center gap-2 text-xs font-semibold ${
                   isDark ? 'text-zinc-400' : 'text-neutral-600'
                 }`}>
-                  <Mail className="w-3.5 h-3.5 flex-shrink-0" />
+                  <Mail className="w-3.5 h-3.5 flex-shrink-0 text-violet-500" />
                   <span>You will get a confirmation email</span>
                 </div>
 
@@ -247,8 +249,8 @@ export const Contact = ({ isDark }) => {
                       required
                       className={`w-full px-4 py-3 rounded-xl text-sm font-medium focus:outline-none focus:ring-2 transition-all border disabled:opacity-60 ${
                         isDark
-                          ? 'bg-black border-zinc-700 text-white placeholder-zinc-500 focus:border-white focus:ring-white/20'
-                          : 'bg-neutral-50 border-neutral-300 text-black placeholder-neutral-500 focus:border-black focus:ring-black/10'
+                          ? 'bg-black border-zinc-700 text-white placeholder-zinc-500 focus:border-violet-400 focus:ring-violet-400/20'
+                          : 'bg-neutral-50 border-neutral-300 text-black placeholder-neutral-500 focus:border-violet-600 focus:ring-violet-600/20'
                       }`}
                     />
                   </div>
@@ -264,8 +266,8 @@ export const Contact = ({ isDark }) => {
                       required
                       className={`w-full px-4 py-3 rounded-xl text-sm font-medium focus:outline-none focus:ring-2 transition-all border disabled:opacity-60 ${
                         isDark
-                          ? 'bg-black border-zinc-700 text-white placeholder-zinc-500 focus:border-white focus:ring-white/20'
-                          : 'bg-neutral-50 border-neutral-300 text-black placeholder-neutral-500 focus:border-black focus:ring-black/10'
+                          ? 'bg-black border-zinc-700 text-white placeholder-zinc-500 focus:border-violet-400 focus:ring-violet-400/20'
+                          : 'bg-neutral-50 border-neutral-300 text-black placeholder-neutral-500 focus:border-violet-600 focus:ring-violet-600/20'
                       }`}
                     />
                   </div>
@@ -283,8 +285,8 @@ export const Contact = ({ isDark }) => {
                     required
                     className={`w-full px-4 py-3 rounded-xl text-sm font-medium focus:outline-none focus:ring-2 transition-all resize-y min-h-[110px] border disabled:opacity-60 ${
                       isDark
-                        ? 'bg-black border-zinc-700 text-white placeholder-zinc-500 focus:border-white focus:ring-white/20'
-                        : 'bg-neutral-50 border-neutral-300 text-black placeholder-neutral-500 focus:border-black focus:ring-black/10'
+                        ? 'bg-black border-zinc-700 text-white placeholder-zinc-500 focus:border-violet-400 focus:ring-violet-400/20'
+                        : 'bg-neutral-50 border-neutral-300 text-black placeholder-neutral-500 focus:border-violet-600 focus:ring-violet-600/20'
                     }`}
                   ></textarea>
                 </div>
@@ -293,7 +295,7 @@ export const Contact = ({ isDark }) => {
                   <button
                     type="submit"
                     disabled={status === 'submitting'}
-                    className={`inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-extrabold text-sm sm:text-base transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed focus:outline-none shadow-md ${
+                    className={`home-btn-shine home-btn-glow inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-extrabold text-sm sm:text-base disabled:opacity-60 disabled:cursor-not-allowed focus:outline-none shadow-md ${
                       isDark
                         ? 'bg-white text-black hover:bg-zinc-200 shadow-white/10'
                         : 'bg-black hover:bg-neutral-800 text-white shadow-black/10'

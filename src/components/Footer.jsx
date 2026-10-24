@@ -24,21 +24,21 @@ export const Footer = ({ isDark }) => {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
           
-          {/* Copyright Text in Pure B&W */}
+          {/* Copyright Text */}
           <div className={`text-xs sm:text-sm font-bold text-center sm:text-left ${isDark ? 'text-white' : 'text-black'}`}>
             © {currentYear} {personalInfo.name}. All Rights Reserved.
           </div>
 
-          {/* Social Links */}
+          {/* Social Links with Hover Lift & Violet Highlight */}
           <div className="flex items-center space-x-3">
             <a
               href={personalInfo.github}
               target="_blank"
               rel="noopener noreferrer"
-              className={`p-2 rounded-lg border transition-all ${
+              className={`home-social-icon p-2 rounded-lg border ${
                 isDark
-                  ? 'text-zinc-300 hover:text-white hover:bg-zinc-900 border-zinc-800'
-                  : 'text-black hover:text-white hover:bg-black border-neutral-300'
+                  ? 'text-zinc-300 bg-zinc-900 border-zinc-800'
+                  : 'text-black bg-neutral-100 border-neutral-300'
               }`}
               aria-label="GitHub"
             >
@@ -48,10 +48,10 @@ export const Footer = ({ isDark }) => {
               href={personalInfo.linkedin}
               target="_blank"
               rel="noopener noreferrer"
-              className={`p-2 rounded-lg border transition-all ${
+              className={`home-social-icon p-2 rounded-lg border ${
                 isDark
-                  ? 'text-zinc-300 hover:text-white hover:bg-zinc-900 border-zinc-800'
-                  : 'text-black hover:text-white hover:bg-black border-neutral-300'
+                  ? 'text-zinc-300 bg-zinc-900 border-zinc-800'
+                  : 'text-black bg-neutral-100 border-neutral-300'
               }`}
               aria-label="LinkedIn"
             >
@@ -59,10 +59,10 @@ export const Footer = ({ isDark }) => {
             </a>
             <a
               href={`mailto:${personalInfo.email}`}
-              className={`p-2 rounded-lg border transition-all ${
+              className={`home-social-icon p-2 rounded-lg border ${
                 isDark
-                  ? 'text-zinc-300 hover:text-white hover:bg-zinc-900 border-zinc-800'
-                  : 'text-black hover:text-white hover:bg-black border-neutral-300'
+                  ? 'text-zinc-300 bg-zinc-900 border-zinc-800'
+                  : 'text-black bg-neutral-100 border-neutral-300'
               }`}
               aria-label="Email"
             >
@@ -72,17 +72,17 @@ export const Footer = ({ isDark }) => {
         </div>
       </div>
 
-      {/* Floating Back to Top Button in Pure B&W */}
+      {/* Floating Back to Top Button with Shine & Violet Glow */}
       <button
         onClick={scrollToTop}
-        className={`fixed bottom-6 right-6 z-30 w-10 h-10 rounded-xl flex items-center justify-center shadow-lg transition-all duration-200 hover:-translate-y-1 focus:outline-none ${
+        className={`home-btn-shine home-btn-glow fixed bottom-6 right-6 z-30 w-10 h-10 rounded-xl flex items-center justify-center shadow-lg transition-transform duration-200 hover:-translate-y-1.5 focus:outline-none ${
           isDark
             ? 'bg-white text-black hover:bg-zinc-200 shadow-white/10'
             : 'bg-black hover:bg-neutral-800 text-white shadow-black/20'
         }`}
         aria-label="Scroll to top"
       >
-        <ArrowUp className="w-5 h-5" />
+        <ArrowUp className="w-5 h-5 text-violet-600 dark:text-violet-900" />
       </button>
     </footer>
   );

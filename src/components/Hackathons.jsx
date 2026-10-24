@@ -14,10 +14,14 @@ import {
   ShieldCheck
 } from 'lucide-react';
 import { hackathonsData } from '../data/portfolioData';
+import { useScrollReveal } from '../utils/useScrollReveal';
 
 export const Hackathons = ({ isDark, onSelectCertificate }) => {
+  const [sectionRef, isVisible] = useScrollReveal();
+
   return (
     <section
+      ref={sectionRef}
       id="hackathons"
       className={`py-16 md:py-20 border-b transition-colors duration-300 ${
         isDark ? 'bg-black border-zinc-900' : 'bg-white border-neutral-200'
@@ -26,15 +30,15 @@ export const Hackathons = ({ isDark, onSelectCertificate }) => {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
-        <div className="flex items-center gap-3 mb-3">
+        <div className={`flex items-center gap-3 mb-3 portfolio-reveal ${isVisible ? 'in-view' : ''}`}>
           <div
-            className={`w-10 h-10 rounded-full border flex items-center justify-center shadow-sm ${
+            className={`w-10 h-10 rounded-full border flex items-center justify-center shadow-sm portfolio-header-icon ${
               isDark
                 ? 'bg-zinc-900 border-zinc-700 text-white'
                 : 'bg-neutral-100 border-neutral-300 text-black'
             }`}
           >
-            <Terminal className="w-5 h-5" />
+            <Terminal className="w-5 h-5 text-violet-600 dark:text-violet-400" />
           </div>
           <h2
             className={`text-2xl sm:text-3xl font-black tracking-tight ${
@@ -58,7 +62,7 @@ export const Hackathons = ({ isDark, onSelectCertificate }) => {
           {hackathonsData.map((item) => (
             <div
               key={item.id}
-              className={`rounded-2xl border shadow-sm transition-all duration-200 overflow-hidden ${
+              className={`portfolio-card portfolio-reveal ${isVisible ? 'in-view' : ''} rounded-2xl border shadow-sm transition-all duration-200 overflow-hidden ${
                 isDark
                   ? 'bg-zinc-900/90 border-zinc-800'
                   : 'bg-white border-neutral-300'
@@ -381,7 +385,7 @@ export const Hackathons = ({ isDark, onSelectCertificate }) => {
                           <div className="grid grid-cols-2 gap-2 mt-5 pt-4 border-t border-neutral-200 dark:border-zinc-800">
                             <button
                               onClick={() => onSelectCertificate(cert)}
-                              className={`w-full py-2.5 px-3 rounded-xl font-extrabold text-xs sm:text-sm flex items-center justify-center gap-1.5 transition-all shadow-sm focus:outline-none ${
+                              className={`home-btn-shine home-btn-glow w-full py-2.5 px-3 rounded-xl font-extrabold text-xs sm:text-sm flex items-center justify-center gap-1.5 shadow-sm focus:outline-none ${
                                 isDark
                                   ? 'bg-white text-black hover:bg-zinc-200'
                                   : 'bg-black text-white hover:bg-neutral-800'
@@ -395,10 +399,10 @@ export const Hackathons = ({ isDark, onSelectCertificate }) => {
                               href={cert.verifyUrl}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className={`w-full py-2.5 px-3 rounded-xl font-extrabold text-xs sm:text-sm flex items-center justify-center gap-1.5 transition-all shadow-2xs focus:outline-none border-2 ${
+                              className={`home-btn-shine w-full py-2.5 px-3 rounded-xl font-extrabold text-xs sm:text-sm flex items-center justify-center gap-1.5 shadow-2xs focus:outline-none border-2 transition-colors ${
                                 isDark
-                                  ? 'bg-zinc-900 hover:bg-zinc-800 text-white border-zinc-700 hover:border-white'
-                                  : 'bg-white hover:bg-neutral-100 text-black border-neutral-300 hover:border-black'
+                                  ? 'bg-zinc-900 hover:bg-zinc-800 text-white border-zinc-700 hover:border-violet-400'
+                                  : 'bg-white hover:bg-neutral-100 text-black border-neutral-300 hover:border-violet-600'
                               }`}
                             >
                               <span>Verify</span>

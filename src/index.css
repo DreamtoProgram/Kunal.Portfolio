@@ -1,3 +1,5 @@
+@import './styles/homeMotion.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -10,7 +12,9 @@
     --text-primary: #000000;
     --text-secondary: #262626;
     --border-color: #e5e5e5;
-    --accent: #000000;
+    --accent: #6d28d9;
+    --accent-light: #8b5cf6;
+    --accent-glow: rgba(109, 40, 217, 0.25);
   }
 
   .dark {
@@ -20,7 +24,9 @@
     --text-primary: #ffffff;
     --text-secondary: #d4d4d8;
     --border-color: #27272a;
-    --accent: #ffffff;
+    --accent: #8b5cf6;
+    --accent-light: #a78bfa;
+    --accent-glow: rgba(139, 92, 246, 0.3);
   }
 
   html {

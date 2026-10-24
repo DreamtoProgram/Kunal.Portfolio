@@ -86,7 +86,7 @@ export function App() {
     <div
       className={`min-h-screen flex flex-col font-sans transition-colors duration-450 ${
         isDark ? 'bg-[#09090b] text-white' : 'bg-white text-slate-800'
-      } selection:bg-blue-600 selection:text-white relative`}
+      } selection:bg-violet-600 selection:text-white relative`}
     >
       {/* Top Violet Scroll Progress Bar */}
       <ScrollProgress />

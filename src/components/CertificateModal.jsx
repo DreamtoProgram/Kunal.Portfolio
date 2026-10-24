@@ -232,7 +232,7 @@ export const CertificateModal = ({ isDark, certificate, onClose }) => {
               href={certificate.verifyUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-extrabold transition-colors shadow-sm ${
+              className={`home-btn-shine home-btn-glow inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-extrabold shadow-sm ${
                 isDark
                   ? 'bg-white text-black hover:bg-zinc-200'
                   : 'bg-black hover:bg-neutral-800 text-white shadow-black/20'

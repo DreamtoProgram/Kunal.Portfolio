@@ -197,7 +197,7 @@ export const ProjectModal = ({ isDark, project, onClose }) => {
               href={project.githubUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-extrabold transition-colors shadow-sm ${
+              className={`home-btn-shine home-btn-glow inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-extrabold shadow-sm ${
                 isDark
                   ? 'bg-white text-black hover:bg-zinc-200'
                   : 'bg-black text-white hover:bg-neutral-800'
