@@ -1,9 +1,87 @@
-import React from 'react';
-import { ArrowRight, FileText, Sparkles, MapPin } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { ArrowRight, FileText, MapPin } from 'lucide-react';
 import { personalInfo } from '../data/portfolioData';
 import { GithubIcon, LinkedinIcon } from './BrandLogos';
+import { HeroCanvas } from './HeroCanvas';
+import { HeroAvatarArea } from './HeroAvatarArea';
+import '../styles/homeMotion.css';
+
+const ROLES = [
+  'AI & Data Engineer',
+  'Problem Solver',
+  'Model Builder',
+  'Pipeline Tinkerer'
+];
 
 export const Hero = ({ isDark, onOpenResume }) => {
+  // 1. Role Typing / Deleting Rotation Effect
+  const [roleIndex, setRoleIndex] = useState(0);
+  const [displayText, setDisplayText] = useState(ROLES[0]);
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  useEffect(() => {
+    // Respect prefers-reduced-motion
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      return;
+    }
+
+    const currentRole = ROLES[roleIndex];
+    let timeoutId;
+
+    if (!isDeleting) {
+      if (displayText.length < currentRole.length) {
+        timeoutId = setTimeout(() => {
+          setDisplayText(currentRole.slice(0, displayText.length + 1));
+        }, 75);
+      } else {
+        // Pause at full text for ~2s
+        timeoutId = setTimeout(() => {
+          setIsDeleting(true);
+        }, 2000);
+      }
+    } else {
+      if (displayText.length > 0) {
+        timeoutId = setTimeout(() => {
+          setDisplayText(currentRole.slice(0, displayText.length - 1));
+        }, 40);
+      } else {
+        // Switch to next role and pause briefly
+        setIsDeleting(false);
+        setRoleIndex((prev) => (prev + 1) % ROLES.length);
+      }
+    }
+
+    return () => clearTimeout(timeoutId);
+  }, [displayText, isDeleting, roleIndex]);
+
+  // 2. Magnetic Pull Interaction for Buttons (max ~4px)
+  const useMagnetic = () => {
+    const [offset, setOffset] = useState({ x: 0, y: 0 });
+    const ref = useRef(null);
+
+    const handleMouseMove = (e) => {
+      if (window.innerWidth < 860 || !ref.current) return;
+      const rect = ref.current.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+      const dx = (e.clientX - centerX) * 0.15;
+      const dy = (e.clientY - centerY) * 0.15;
+      setOffset({
+        x: Math.max(-4, Math.min(4, dx)),
+        y: Math.max(-4, Math.min(4, dy))
+      });
+    };
+
+    const handleMouseLeave = () => {
+      setOffset({ x: 0, y: 0 });
+    };
+
+    return { ref, offset, handleMouseMove, handleMouseLeave };
+  };
+
+  const contactBtnMag = useMagnetic();
+  const resumeBtnMag = useMagnetic();
+
   const scrollToContact = (e) => {
     e.preventDefault();
     const contactSection = document.getElementById('contact');
@@ -12,47 +90,90 @@ export const Hero = ({ isDark, onOpenResume }) => {
     }
   };
 
+  const scrollToAbout = (e) => {
+    e.preventDefault();
+    const aboutSection = document.getElementById('about');
+    if (aboutSection) {
+      aboutSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <section
       id="home"
-      className={`relative pt-12 pb-20 md:pt-20 md:pb-28 border-b overflow-hidden transition-colors duration-300 ${
+      className={`relative pt-12 pb-24 md:pt-20 md:pb-32 border-b overflow-hidden transition-colors duration-300 ${
         isDark ? 'bg-black border-zinc-900 text-white' : 'bg-white border-neutral-200 text-black'
       }`}
     >
+      {/* 1. Background: Faint Canvas Neural Network */}
+      <HeroCanvas isDark={isDark} />
+
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
           
           {/* Left Column: Text & Intro */}
           <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
 
-            {/* Main Headline in Crisp Black & White */}
+            {/* Main Headline with Masked Reveal */}
             <div className="space-y-3">
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight">
-                <span className={`block text-2xl sm:text-3xl font-medium tracking-normal mb-1 ${
-                  isDark ? 'text-zinc-300' : 'text-neutral-600'
-                }`}>
-                  Hi, I'm
+                {/* Mask 1: "Hi, I'm" */}
+                <span className="home-mask-container block">
+                  <span
+                    className={`home-reveal-text home-delay-1 block text-2xl sm:text-3xl font-medium tracking-normal mb-1 ${
+                      isDark ? 'text-zinc-300' : 'text-neutral-600'
+                    }`}
+                  >
+                    Hi, I'm
+                  </span>
                 </span>
-                <span className={`font-black ${isDark ? 'text-white' : 'text-black'}`}>
-                  {personalInfo.name}.
+
+                {/* Mask 2: "Kunal." */}
+                <span className="home-mask-container block">
+                  <span
+                    className={`home-reveal-text home-delay-2 font-black ${
+                      isDark ? 'text-white' : 'text-black'
+                    }`}
+                  >
+                    {personalInfo.name}.
+                  </span>
                 </span>
               </h1>
 
-              {/* Status / Availability Badge placed after "Hi, I'm Kunal." */}
-              <div className="pt-1 flex justify-center lg:justify-start">
-                <div className={`inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full border text-xs font-bold shadow-2xs ${
-                  isDark ? 'bg-zinc-900 border-zinc-700 text-white' : 'bg-white border-neutral-300 text-black'
-                }`}>
+              {/* Status / Availability Badge with Typing Role */}
+              <div className="home-fade-up home-delay-3 pt-1 flex justify-center lg:justify-start">
+                <div
+                  className={`inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full border text-xs font-bold shadow-2xs transition-colors ${
+                    isDark
+                      ? 'bg-zinc-900 border-zinc-700 text-white'
+                      : 'bg-white border-neutral-300 text-black'
+                  }`}
+                >
+                  {/* Soft pulsing ping ring dot in accent violet */}
                   <span className="relative flex h-2.5 w-2.5">
-                    <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${isDark ? 'bg-white' : 'bg-black'}`}></span>
-                    <span className={`relative inline-flex rounded-full h-2.5 w-2.5 ${isDark ? 'bg-white' : 'bg-black'}`}></span>
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-violet-500 opacity-75" />
+                    <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-violet-600 dark:bg-violet-400" />
                   </span>
-                  <span className={`font-extrabold text-sm ${isDark ? 'text-white' : 'text-black'}`}>
-                    {personalInfo.title}
+
+                  {/* Typing / Deleting Dynamic Role */}
+                  <span className="font-extrabold text-sm min-w-[140px] text-left">
+                    <span className={isDark ? 'text-white' : 'text-black'}>
+                      {displayText}
+                    </span>
+                    <span
+                      className="inline-block w-[2px] h-[1em] bg-violet-600 dark:bg-violet-400 ml-0.5 align-middle animate-pulse"
+                      aria-hidden="true"
+                    />
                   </span>
-                  <span className={`text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full ${
-                    isDark ? 'bg-zinc-800 text-white' : 'bg-neutral-100 text-black border border-neutral-200'
-                  }`}>
+
+                  {/* Static Opportunities Tag */}
+                  <span
+                    className={`text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full ${
+                      isDark
+                        ? 'bg-zinc-800 text-white'
+                        : 'bg-neutral-100 text-black border border-neutral-200'
+                    }`}
+                  >
                     Open to Opportunities
                   </span>
                 </div>
@@ -60,41 +181,57 @@ export const Hero = ({ isDark, onOpenResume }) => {
             </div>
 
             {/* Short Engaging Bio */}
-            <p className={`text-base sm:text-lg max-w-xl mx-auto lg:mx-0 leading-relaxed font-normal ${
-              isDark ? 'text-zinc-300' : 'text-neutral-700'
-            }`}>
+            <p
+              className={`home-fade-up home-delay-4 text-base sm:text-lg max-w-xl mx-auto lg:mx-0 leading-relaxed font-normal ${
+                isDark ? 'text-zinc-300' : 'text-neutral-700'
+              }`}
+            >
               {personalInfo.tagline}
             </p>
 
             {/* Location Tag */}
-            <div className={`flex items-center justify-center lg:justify-start gap-1.5 text-xs font-semibold ${
-              isDark ? 'text-zinc-400' : 'text-neutral-600'
-            }`}>
+            <div
+              className={`home-fade-up home-delay-5 flex items-center justify-center lg:justify-start gap-1.5 text-xs font-semibold ${
+                isDark ? 'text-zinc-400' : 'text-neutral-600'
+              }`}
+            >
               <MapPin className={`w-3.5 h-3.5 ${isDark ? 'text-white' : 'text-black'}`} />
               <span>{personalInfo.location}</span>
             </div>
 
-            {/* Call to Actions (Pure B&W) */}
-            <div className="pt-2 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+            {/* Call to Actions (Interactive Buttons with Shine, Magnetic Pull & Violet Glow) */}
+            <div className="home-fade-up home-delay-6 pt-2 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
               <a
+                ref={contactBtnMag.ref}
+                onMouseMove={contactBtnMag.handleMouseMove}
+                onMouseLeave={contactBtnMag.handleMouseLeave}
+                style={{
+                  transform: `translate3d(${contactBtnMag.offset.x}px, ${contactBtnMag.offset.y}px, 0)`
+                }}
                 href="#contact"
                 onClick={scrollToContact}
-                className={`w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl font-extrabold text-sm sm:text-base transition-all duration-200 shadow-md focus:outline-none ${
+                className={`home-btn-shine home-btn-glow group w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl font-extrabold text-sm sm:text-base shadow-md focus:outline-none ${
                   isDark
                     ? 'bg-white hover:bg-zinc-200 text-black shadow-white/10'
                     : 'bg-black hover:bg-neutral-800 text-white shadow-neutral-900/20'
                 }`}
               >
                 <span>Get In Touch</span>
-                <ArrowRight className="w-4 h-4" />
+                <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1.5" />
               </a>
 
               <button
+                ref={resumeBtnMag.ref}
+                onMouseMove={resumeBtnMag.handleMouseMove}
+                onMouseLeave={resumeBtnMag.handleMouseLeave}
+                style={{
+                  transform: `translate3d(${resumeBtnMag.offset.x}px, ${resumeBtnMag.offset.y}px, 0)`
+                }}
                 onClick={onOpenResume}
-                className={`w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl font-extrabold text-sm sm:text-base border-2 transition-all duration-200 focus:outline-none ${
+                className={`home-btn-shine home-btn-glow w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl font-extrabold text-sm sm:text-base border-2 focus:outline-none ${
                   isDark
-                    ? 'bg-zinc-900 hover:bg-zinc-800 text-white border-zinc-700 hover:border-white shadow-2xs'
-                    : 'bg-white hover:bg-neutral-100 text-black border-black shadow-2xs'
+                    ? 'bg-zinc-900 hover:bg-zinc-800 text-white border-zinc-700 hover:border-violet-500 shadow-2xs'
+                    : 'bg-white hover:bg-neutral-100 text-black border-black hover:border-violet-600 shadow-2xs'
                 }`}
               >
                 <FileText className="w-4 h-4" />
@@ -102,11 +239,13 @@ export const Hero = ({ isDark, onOpenResume }) => {
               </button>
             </div>
 
-            {/* Social Proof Links */}
-            <div className="pt-4 flex items-center justify-center lg:justify-start space-x-3">
-              <span className={`text-xs font-bold uppercase tracking-wider mr-1 ${
-                isDark ? 'text-zinc-400' : 'text-neutral-500'
-              }`}>
+            {/* Social Proof Links with Lift & Violet Highlight */}
+            <div className="home-fade-up home-delay-7 pt-4 flex items-center justify-center lg:justify-start space-x-3">
+              <span
+                className={`text-xs font-bold uppercase tracking-wider mr-1 ${
+                  isDark ? 'text-zinc-400' : 'text-neutral-500'
+                }`}
+              >
                 Connect:
               </span>
               
@@ -114,10 +253,10 @@ export const Hero = ({ isDark, onOpenResume }) => {
                 href={personalInfo.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`p-2.5 rounded-xl border transition-all duration-200 shadow-2xs ${
+                className={`home-social-icon p-2.5 rounded-xl border shadow-2xs ${
                   isDark
-                    ? 'bg-zinc-900 text-white border-zinc-800 hover:bg-zinc-800 hover:border-zinc-600'
-                    : 'bg-neutral-100 text-black border-neutral-300 hover:bg-black hover:text-white hover:border-black'
+                    ? 'bg-zinc-900 text-white border-zinc-800'
+                    : 'bg-neutral-100 text-black border-neutral-300'
                 }`}
                 aria-label="GitHub Profile"
               >
@@ -128,10 +267,10 @@ export const Hero = ({ isDark, onOpenResume }) => {
                 href={personalInfo.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`p-2.5 rounded-xl border transition-all duration-200 shadow-2xs ${
+                className={`home-social-icon p-2.5 rounded-xl border shadow-2xs ${
                   isDark
-                    ? 'bg-zinc-900 text-white border-zinc-800 hover:bg-zinc-800 hover:border-zinc-600'
-                    : 'bg-neutral-100 text-black border-neutral-300 hover:bg-black hover:text-white hover:border-black'
+                    ? 'bg-zinc-900 text-white border-zinc-800'
+                    : 'bg-neutral-100 text-black border-neutral-300'
                 }`}
                 aria-label="LinkedIn Profile"
               >
@@ -141,42 +280,28 @@ export const Hero = ({ isDark, onOpenResume }) => {
 
           </div>
 
-          {/* Right Column: User's Profile Image */}
+          {/* Right Column: Interactive Profile Photo Area with Orbiting Skill Chips & Violet Blob */}
           <div className="lg:col-span-5 flex justify-center lg:justify-end">
-            <div className="relative group">
-              
-              {/* Outer Decorative Ring */}
-              <div
-                className={`absolute -inset-2 rounded-full blur-sm opacity-40 transition duration-500 group-hover:opacity-70 ${
-                  isDark ? 'bg-white' : 'bg-black'
-                }`}
-              ></div>
-
-              {/* Avatar Frame in Pure Black & White - Fine-tuned Sweet Spot */}
-              <div
-                className={`relative w-60 h-60 sm:w-68 sm:h-68 lg:w-[295px] lg:h-[295px] rounded-full p-2 border-2 transition-transform duration-300 group-hover:scale-102 ${
-                  isDark
-                    ? 'bg-zinc-900 border-zinc-700 shadow-2xl shadow-black'
-                    : 'bg-neutral-100 border-black shadow-xl shadow-neutral-900/10'
-                }`}
-              >
-                <div className="w-full h-full rounded-full overflow-hidden bg-neutral-200">
-                  <img
-                    src="/profile.png"
-                    alt={personalInfo.fullName}
-                    className="w-full h-full object-cover object-center select-none"
-                    onError={(e) => {
-                      e.target.src = 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=600';
-                    }}
-                  />
-                </div>
-              </div>
-
-            </div>
+            <HeroAvatarArea isDark={isDark} />
           </div>
 
         </div>
       </div>
+
+      {/* Animated Scroll-Down Mouse Indicator at Bottom of Hero */}
+      <a
+        href="#about"
+        onClick={scrollToAbout}
+        className="home-fade-up home-delay-8 absolute bottom-4 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 opacity-70 hover:opacity-100 transition-opacity duration-200 cursor-pointer group z-20"
+        aria-label="Scroll down to About section"
+      >
+        <span className="text-[10px] uppercase font-bold tracking-widest text-zinc-500 dark:text-zinc-400 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition-colors">
+          Scroll
+        </span>
+        <div className="w-5 h-8 rounded-full border-2 border-zinc-400 dark:border-zinc-600 flex justify-center p-1 group-hover:border-violet-600 dark:group-hover:border-violet-400 transition-colors">
+          <div className="w-1 h-2 rounded-full bg-violet-600 dark:bg-violet-400 home-mouse-wheel" />
+        </div>
+      </a>
     </section>
   );
 };

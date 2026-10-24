@@ -13,6 +13,7 @@ import { PullCord } from './components/PullCord';
 import { CertificateModal } from './components/CertificateModal';
 import { ProjectModal } from './components/ProjectModal';
 import { ResumeModal } from './components/ResumeModal';
+import { ScrollProgress } from './components/ScrollProgress';
 
 export function App() {
   // Theme state: defaults to light mode ('light'), switches with the pull cord
@@ -87,6 +88,9 @@ export function App() {
         isDark ? 'bg-[#09090b] text-white' : 'bg-white text-slate-800'
       } selection:bg-blue-600 selection:text-white relative`}
     >
+      {/* Top Violet Scroll Progress Bar */}
+      <ScrollProgress />
+
       {/* Interactive Pull Cord Light Switch hanging from top right */}
       <PullCord isDark={isDark} onToggleTheme={toggleTheme} />
 

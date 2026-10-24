@@ -43,7 +43,7 @@ export const Navbar = ({ isDark, activeSection, onOpenResume }) => {
 
   return (
     <header
-      className={`sticky top-0 z-40 w-full transition-all duration-300 ${
+      className={`sticky top-0 z-40 w-full home-navbar-enter transition-all duration-300 ${
         isScrolled
           ? isDark
             ? 'bg-black/95 backdrop-blur-md border-b border-zinc-900 shadow-lg shadow-black/50'
@@ -93,6 +93,8 @@ export const Navbar = ({ isDark, activeSection, onOpenResume }) => {
                   href={item.href}
                   onClick={(e) => handleNavClick(e, item.href)}
                   className={`relative px-3 py-2 text-sm font-bold transition-all duration-200 ${
+                    !isActive ? 'home-nav-link' : ''
+                  } ${
                     isActive
                       ? isDark
                         ? 'text-white font-extrabold'

@@ -1,0 +1,385 @@
+/* ==========================================================================
+   Home Page Motion Graphics & Animations (Scoped exclusively with home-)
+   Accent Color: Deep Violet (#6d28d9 / #8b5cf6)
+   ========================================================================== */
+
+:root {
+  --home-accent-violet: #6d28d9;
+  --home-accent-violet-light: #8b5cf6;
+  --home-accent-violet-glow: rgba(109, 40, 217, 0.25);
+}
+
+/* --------------------------------------------------------------------------
+   1. Page-Load Entrance Sequence Animations
+   -------------------------------------------------------------------------- */
+
+/* Navbar slide-down from top */
+@keyframes homeNavbarSlideDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.home-navbar-enter {
+  animation: homeNavbarSlideDown 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Masked Text Reveal (rise out of overflow:hidden mask) */
+@keyframes homeMaskReveal {
+  0% {
+    transform: translateY(115%);
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0%);
+    opacity: 1;
+  }
+}
+
+.home-mask-container {
+  overflow: hidden;
+  display: inline-block;
+  vertical-align: bottom;
+  line-height: 1.15;
+}
+
+.home-reveal-text {
+  display: inline-block;
+  animation: homeMaskReveal 0.65s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  will-change: transform, opacity;
+}
+
+/* Staggered entrance for hero elements */
+@keyframes homeFadeUp {
+  0% {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.home-fade-up {
+  animation: homeFadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+  will-change: transform, opacity;
+}
+
+/* Delays */
+.home-delay-1 { animation-delay: 0.10s; }
+.home-delay-2 { animation-delay: 0.25s; }
+.home-delay-3 { animation-delay: 0.40s; }
+.home-delay-4 { animation-delay: 0.55s; }
+.home-delay-5 { animation-delay: 0.70s; }
+.home-delay-6 { animation-delay: 0.85s; }
+.home-delay-7 { animation-delay: 1.00s; }
+.home-delay-8 { animation-delay: 1.15s; }
+
+/* --------------------------------------------------------------------------
+   2. Profile Photo Animations (Entrance, Float, Blob Morph, Orbits)
+   -------------------------------------------------------------------------- */
+
+/* Photo pop-in with scale and slight rotation on load */
+@keyframes homePhotoPopIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.82) rotate(-4deg);
+  }
+  70% {
+    opacity: 1;
+    transform: scale(1.03) rotate(1deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+.home-photo-enter {
+  animation: homePhotoPopIn 0.85s cubic-bezier(0.16, 1, 0.3, 1) both 0.35s;
+}
+
+/* Idle gentle vertical floating loop (~6s loop) */
+@keyframes homeGentleFloat {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.home-float-idle {
+  animation: homeGentleFloat 6s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* Violet gradient blob morph & drift */
+@keyframes homeBlobMorph {
+  0%, 100% {
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+    transform: translate(0px, 0px) scale(1);
+  }
+  34% {
+    border-radius: 40% 60% 60% 40% / 50% 60% 40% 50%;
+    transform: translate(6px, -10px) scale(1.05);
+  }
+  67% {
+    border-radius: 50% 50% 40% 60% / 40% 50% 60% 50%;
+    transform: translate(-8px, 6px) scale(0.96);
+  }
+}
+
+.home-blob-morph {
+  animation: homeBlobMorph 14s ease-in-out infinite;
+  will-change: border-radius, transform;
+}
+
+/* Rotating Dashed / Dotted Rings */
+@keyframes homeSpinClockwise {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes homeSpinCounter {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+.home-ring-spin-cw {
+  animation: homeSpinClockwise 28s linear infinite;
+  will-change: transform;
+}
+
+.home-ring-spin-ccw {
+  animation: homeSpinCounter 40s linear infinite;
+  will-change: transform;
+}
+
+/* Skill Chips Orbit System */
+/* Parent container rotates 360deg, inner chip counter-rotates -360deg so text remains strictly upright */
+@keyframes homeOrbitSpin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes homeOrbitCounterSpin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+.home-orbit-track {
+  animation: homeOrbitSpin 36s linear infinite;
+  will-change: transform;
+}
+
+.home-orbit-chip-upright {
+  animation: homeOrbitCounterSpin 36s linear infinite;
+  will-change: transform;
+}
+
+/* --------------------------------------------------------------------------
+   3. Button Interactions (Diagonal Shine, Hover Violet Glow)
+   -------------------------------------------------------------------------- */
+
+.home-btn-shine {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.home-btn-shine::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 70%;
+  height: 100%;
+  background: linear-gradient(
+    105deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0) 30%,
+    rgba(255, 255, 255, 0.35) 50%,
+    rgba(255, 255, 255, 0) 70%,
+    transparent 100%
+  );
+  transform: skewX(-25deg);
+  pointer-events: none;
+  transition: left 0.75s ease;
+  z-index: 10;
+}
+
+.home-btn-shine:hover::after {
+  left: 170%;
+}
+
+.home-btn-glow:hover {
+  box-shadow: 0 0 25px rgba(109, 40, 217, 0.35), 0 8px 20px -4px rgba(109, 40, 217, 0.25);
+}
+
+/* --------------------------------------------------------------------------
+   4. Nav Link Sliding Underline
+   -------------------------------------------------------------------------- */
+
+.home-nav-link {
+  position: relative;
+}
+
+.home-nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0px;
+  left: 12px;
+  right: 12px;
+  height: 2px;
+  background-color: var(--home-accent-violet);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  border-radius: 9999px;
+}
+
+.home-nav-link:hover::after {
+  transform: scaleX(1);
+}
+
+/* --------------------------------------------------------------------------
+   5. Social Icons Hover Lift & Violet Highlight
+   -------------------------------------------------------------------------- */
+
+.home-social-icon {
+  transition: transform 0.24s cubic-bezier(0.16, 1, 0.3, 1),
+              color 0.2s ease,
+              border-color 0.2s ease,
+              box-shadow 0.25s ease;
+}
+
+.home-social-icon:hover {
+  transform: translateY(-4px) rotate(4deg);
+  border-color: var(--home-accent-violet) !important;
+  color: var(--home-accent-violet) !important;
+  box-shadow: 0 6px 18px rgba(109, 40, 217, 0.25);
+}
+
+.dark .home-social-icon:hover {
+  border-color: var(--home-accent-violet-light) !important;
+  color: var(--home-accent-violet-light) !important;
+  box-shadow: 0 6px 20px rgba(139, 92, 246, 0.35);
+}
+
+/* --------------------------------------------------------------------------
+   6. Pull Cord Swaying Animation
+   -------------------------------------------------------------------------- */
+
+@keyframes homeCordIdleSway {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(1.2deg);
+  }
+  75% {
+    transform: rotate(-1.2deg);
+  }
+}
+
+.home-cord-sway {
+  transform-origin: top center;
+  animation: homeCordIdleSway 5s ease-in-out infinite;
+}
+
+/* --------------------------------------------------------------------------
+   7. Animated Scroll-Down Mouse Indicator
+   -------------------------------------------------------------------------- */
+
+@keyframes homeMouseWheel {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  60% {
+    opacity: 0.1;
+    transform: translateY(8px);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
+.home-mouse-wheel {
+  animation: homeMouseWheel 2s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+}
+
+@keyframes homeBounceChevron {
+  0%, 100% {
+    transform: translateY(0);
+    opacity: 0.4;
+  }
+  50% {
+    transform: translateY(4px);
+    opacity: 0.9;
+  }
+}
+
+.home-bounce-chevron {
+  animation: homeBounceChevron 2s ease-in-out infinite;
+}
+
+/* --------------------------------------------------------------------------
+   8. Reduced Motion Accessibility Fallback
+   -------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .home-navbar-enter,
+  .home-reveal-text,
+  .home-fade-up,
+  .home-photo-enter,
+  .home-float-idle,
+  .home-blob-morph,
+  .home-ring-spin-cw,
+  .home-ring-spin-ccw,
+  .home-orbit-track,
+  .home-orbit-chip-upright,
+  .home-cord-sway,
+  .home-mouse-wheel,
+  .home-bounce-chevron {
+    animation: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+
+  .home-btn-shine::after {
+    display: none !important;
+  }
+
+  .home-social-icon:hover {
+    transform: none !important;
+  }
+}

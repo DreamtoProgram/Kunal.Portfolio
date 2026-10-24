@@ -12,6 +12,7 @@ export const PullCord = ({ isDark, onToggleTheme }) => {
   const startPosRef = useRef({ x: 0, y: 0 });
   const currentPosRef = useRef({ x: 0, y: 0 });
   const isDraggingRef = useRef(false);
+  const startTimeRef = useRef(0);
   const animationFrameRef = useRef(null);
   const handleRef = useRef(null);
 
@@ -117,6 +118,7 @@ export const PullCord = ({ isDark, onToggleTheme }) => {
 
     isDraggingRef.current = true;
     setIsDragging(true);
+    startTimeRef.current = Date.now();
     startPosRef.current = { x: e.clientX, y: e.clientY };
     currentPosRef.current = { x: e.clientX, y: e.clientY };
   };
@@ -155,9 +157,20 @@ export const PullCord = ({ isDark, onToggleTheme }) => {
 
     const finalY = pullY;
     const finalX = pullX;
+    const clickDuration = Date.now() - startTimeRef.current;
+    const totalMove = Math.hypot(e.clientX - startPosRef.current.x, e.clientY - startPosRef.current.y);
 
     isDraggingRef.current = false;
     setIsDragging(false);
+
+    // Click / tap detection for quick click bounce toggle
+    if (totalMove < 8 && clickDuration < 380) {
+      playSwitchSound();
+      triggerFlash();
+      onToggleTheme();
+      runSpringAnimation(0, 32);
+      return;
+    }
 
     // Trigger toggle if pulled past threshold
     if (finalY >= triggerThreshold) {
@@ -215,7 +228,7 @@ export const PullCord = ({ isDark, onToggleTheme }) => {
       aria-label="Theme switch pull cord"
     >
       {/* SVG Container for String Line */}
-      <div className="relative w-[160px] -ml-[80px] h-0 overflow-visible pointer-events-none">
+      <div className={`relative w-[160px] -ml-[80px] h-0 overflow-visible pointer-events-none ${!isDragging && pullY === 0 ? 'home-cord-sway' : ''}`}>
         <svg
           width="160"
           height={totalLength + 40}
