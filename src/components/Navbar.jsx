@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X, FileText } from 'lucide-react';
 import { personalInfo } from '../data/portfolioData';
+import { MagneticButton } from './animations/MagneticButton';
 
 export const Navbar = ({ isDark, activeSection, onOpenResume }) => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -116,19 +117,21 @@ export const Navbar = ({ isDark, activeSection, onOpenResume }) => {
               );
             })}
 
-            {/* View Resume Trigger Button */}
+            {/* View Resume Trigger Button with Magnetic Pull */}
             <div className="pl-3 ml-2 border-l border-neutral-300 dark:border-zinc-800">
-              <button
-                onClick={onOpenResume}
-                className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all duration-200 shadow-sm focus:outline-none ${
-                  isDark
-                    ? 'bg-white hover:bg-zinc-200 text-black shadow-white/5'
-                    : 'bg-black hover:bg-neutral-800 text-white'
-                }`}
-              >
-                <FileText className="w-3.5 h-3.5" />
-                <span>Resume</span>
-              </button>
+              <MagneticButton as="div" strength={0.2} maxOffset={4}>
+                <button
+                  onClick={onOpenResume}
+                  className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold shadow-sm focus:outline-none transition-colors ${
+                    isDark
+                      ? 'bg-white hover:bg-zinc-200 text-black shadow-white/5'
+                      : 'bg-black hover:bg-neutral-800 text-white'
+                  }`}
+                >
+                  <FileText className="w-3.5 h-3.5 text-violet-600 dark:text-violet-900" />
+                  <span>Resume</span>
+                </button>
+              </MagneticButton>
             </div>
           </nav>
 
@@ -143,7 +146,7 @@ export const Navbar = ({ isDark, activeSection, onOpenResume }) => {
               }`}
               aria-label="View Resume"
             >
-              <FileText className="w-4 h-4" />
+              <FileText className="w-4 h-4 text-violet-600 dark:text-violet-900" />
             </button>
 
             <button
@@ -162,25 +165,28 @@ export const Navbar = ({ isDark, activeSection, onOpenResume }) => {
         </div>
       </div>
 
-      {/* Mobile Dropdown Menu */}
+      {/* Mobile Dropdown Menu with Staggered Entrance */}
       {mobileMenuOpen && (
         <div
           className={`md:hidden border-b px-4 pt-2 pb-6 space-y-1 animate-fadeIn shadow-xl ${
             isDark ? 'bg-black border-zinc-900 text-white' : 'bg-white border-neutral-200 text-black'
           }`}
         >
-          {navItems.map((item) => {
+          {navItems.map((item, idx) => {
             const isActive = activeSection === item.id;
             return (
               <a
                 key={item.id}
                 href={item.href}
                 onClick={(e) => handleNavClick(e, item.href)}
+                style={{
+                  animation: `homeFadeUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) both ${idx * 35}ms`
+                }}
                 className={`block px-3 py-2.5 rounded-xl text-base font-bold transition-colors ${
                   isActive
                     ? isDark
-                      ? 'bg-zinc-900 text-white border border-zinc-800'
-                      : 'bg-neutral-100 text-black font-extrabold'
+                      ? 'bg-zinc-900 text-violet-300 border border-violet-500/40'
+                      : 'bg-neutral-100 text-violet-700 font-extrabold border border-violet-200'
                     : isDark
                       ? 'text-zinc-400 hover:text-white hover:bg-zinc-900/50'
                       : 'text-neutral-700 hover:text-black hover:bg-neutral-50'

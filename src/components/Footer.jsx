@@ -2,6 +2,7 @@ import React from 'react';
 import { ArrowUp, Mail } from 'lucide-react';
 import { personalInfo } from '../data/portfolioData';
 import { GithubIcon, LinkedinIcon } from './BrandLogos';
+import { MagneticButton } from './animations/MagneticButton';
 
 export const Footer = ({ isDark }) => {
   const scrollToTop = () => {
@@ -72,18 +73,22 @@ export const Footer = ({ isDark }) => {
         </div>
       </div>
 
-      {/* Floating Back to Top Button with Shine & Violet Glow */}
-      <button
-        onClick={scrollToTop}
-        className={`home-btn-shine home-btn-glow fixed bottom-6 right-6 z-30 w-10 h-10 rounded-xl flex items-center justify-center shadow-lg transition-transform duration-200 hover:-translate-y-1.5 focus:outline-none ${
-          isDark
-            ? 'bg-white text-black hover:bg-zinc-200 shadow-white/10'
-            : 'bg-black hover:bg-neutral-800 text-white shadow-black/20'
-        }`}
-        aria-label="Scroll to top"
-      >
-        <ArrowUp className="w-5 h-5 text-violet-600 dark:text-violet-900" />
-      </button>
+      {/* Floating Back to Top Button with Magnetic Pull & Violet Glow */}
+      <div className="fixed bottom-6 right-6 z-30">
+        <MagneticButton strength={0.25} maxOffset={5}>
+          <button
+            onClick={scrollToTop}
+            className={`w-10 h-10 rounded-xl flex items-center justify-center shadow-lg focus:outline-none transition-colors ${
+              isDark
+                ? 'bg-white text-black hover:bg-zinc-200 shadow-white/10'
+                : 'bg-black hover:bg-neutral-800 text-white shadow-black/20'
+            }`}
+            aria-label="Scroll to top"
+          >
+            <ArrowUp className="w-5 h-5 text-violet-600 dark:text-violet-900" />
+          </button>
+        </MagneticButton>
+      </div>
     </footer>
   );
 };

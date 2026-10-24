@@ -14,60 +14,42 @@ import {
   ShieldCheck
 } from 'lucide-react';
 import { hackathonsData } from '../data/portfolioData';
-import { useScrollReveal } from '../utils/useScrollReveal';
+import { SectionHeading } from './animations/SectionHeading';
+import { AmbientBackground } from './animations/AmbientBackground';
+import { ScrollReveal } from './animations/ScrollReveal';
 
 export const Hackathons = ({ isDark, onSelectCertificate }) => {
-  const [sectionRef, isVisible] = useScrollReveal();
-
   return (
     <section
-      ref={sectionRef}
       id="hackathons"
-      className={`py-16 md:py-20 border-b transition-colors duration-300 ${
+      className={`relative py-16 md:py-20 border-b transition-colors duration-300 overflow-hidden ${
         isDark ? 'bg-black border-zinc-900' : 'bg-white border-neutral-200'
       }`}
     >
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <AmbientBackground isDark={isDark} position="bottom-left" />
+
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Section Header */}
-        <div className={`flex items-center gap-3 mb-3 portfolio-reveal ${isVisible ? 'in-view' : ''}`}>
-          <div
-            className={`w-10 h-10 rounded-full border flex items-center justify-center shadow-sm portfolio-header-icon ${
-              isDark
-                ? 'bg-zinc-900 border-zinc-700 text-white'
-                : 'bg-neutral-100 border-neutral-300 text-black'
-            }`}
-          >
-            <Terminal className="w-5 h-5 text-violet-600 dark:text-violet-400" />
-          </div>
-          <h2
-            className={`text-2xl sm:text-3xl font-black tracking-tight ${
-              isDark ? 'text-white' : 'text-black'
-            }`}
-          >
-            Hackathons & Events
-          </h2>
-        </div>
-
-        <p
-          className={`text-sm sm:text-base font-medium max-w-2xl mb-10 ${
-            isDark ? 'text-zinc-400' : 'text-neutral-600'
-          }`}
-        >
-          Learning by building — real-world projects, tight deadlines, and collaborative problem solving.
-        </p>
+        <SectionHeading
+          icon={Terminal}
+          title="Hackathons & Events"
+          subtitle="Learning by building — real-world projects, tight deadlines, and collaborative problem solving."
+          isDark={isDark}
+          className="mb-10"
+        />
 
         {/* Hackathon Cards */}
         <div className="space-y-12">
-          {hackathonsData.map((item) => (
-            <div
-              key={item.id}
-              className={`portfolio-card portfolio-reveal ${isVisible ? 'in-view' : ''} rounded-2xl border shadow-sm transition-all duration-200 overflow-hidden ${
-                isDark
-                  ? 'bg-zinc-900/90 border-zinc-800'
-                  : 'bg-white border-neutral-300'
-              }`}
-            >
+          {hackathonsData.map((item, idx) => (
+            <ScrollReveal key={item.id} direction="up" distance={28} delay={idx * 150} duration={650}>
+              <div
+                className={`portfolio-card rounded-2xl border shadow-sm transition-all duration-300 overflow-hidden ${
+                  isDark
+                    ? 'bg-zinc-900/90 border-zinc-800'
+                    : 'bg-white border-neutral-300'
+                }`}
+              >
               {/* Event Header Banner */}
               <div
                 className={`p-6 sm:p-8 border-b ${
@@ -417,6 +399,7 @@ export const Hackathons = ({ isDark, onSelectCertificate }) => {
 
               </div>
             </div>
+          </ScrollReveal>
           ))}
         </div>
 

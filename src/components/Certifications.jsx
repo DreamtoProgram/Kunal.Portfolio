@@ -2,11 +2,12 @@ import React from 'react';
 import { Award, ExternalLink } from 'lucide-react';
 import { certificationsData } from '../data/portfolioData';
 import { MicrosoftLogo, OracleLogo, PythonLogo, SnowflakeLogo, SqlLogo } from './BrandLogos';
-import { useScrollReveal } from '../utils/useScrollReveal';
+import { ScrollReveal } from './animations/ScrollReveal';
+import { TiltCard } from './animations/TiltCard';
+import { SectionHeading } from './animations/SectionHeading';
+import { AmbientBackground } from './animations/AmbientBackground';
 
 export const Certifications = ({ isDark, onSelectCertificate }) => {
-  const [sectionRef, isVisible] = useScrollReveal();
-
   const renderLogo = (iconType) => {
     switch (iconType) {
       case 'microsoft':
@@ -26,100 +27,97 @@ export const Certifications = ({ isDark, onSelectCertificate }) => {
 
   return (
     <section
-      ref={sectionRef}
       id="certifications"
-      className={`py-16 md:py-20 border-b transition-colors duration-300 ${
+      className={`relative py-16 md:py-20 border-b transition-colors duration-300 overflow-hidden ${
         isDark ? 'bg-[#09090b] border-zinc-900' : 'bg-[#fafafa] border-neutral-200'
       }`}
     >
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        {/* Section Header with Violet Glow on Hover */}
-        <div className={`flex items-center gap-3 mb-10 portfolio-reveal ${isVisible ? 'in-view' : ''}`}>
-          <div
-            className={`w-10 h-10 rounded-full border flex items-center justify-center shadow-sm portfolio-header-icon ${
-              isDark
-                ? 'bg-zinc-900 border-zinc-700 text-white'
-                : 'bg-neutral-100 border-neutral-300 text-black'
-            }`}
-          >
-            <Award className="w-5 h-5 text-violet-600 dark:text-violet-400" />
-          </div>
-          <h2
-            className={`text-2xl sm:text-3xl font-black tracking-tight ${
-              isDark ? 'text-white' : 'text-black'
-            }`}
-          >
-            Certifications
-          </h2>
-        </div>
+      <AmbientBackground isDark={isDark} position="top-right" />
 
-        {/* 5 Cards Grid with Staggered Scroll Reveal & Interactive Elevation */}
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        
+        {/* Section Heading */}
+        <SectionHeading
+          icon={Award}
+          title="Certifications"
+          isDark={isDark}
+          className="mb-10"
+        />
+
+        {/* 5 Cards Grid with Staggered Entrance and 3D Perspective */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5">
           {certificationsData.map((cert, idx) => (
-            <div
+            <ScrollReveal
               key={cert.id}
-              onClick={() => onSelectCertificate(cert)}
-              className={`portfolio-card portfolio-reveal portfolio-stagger-${idx + 1} ${
-                isVisible ? 'in-view' : ''
-              } rounded-2xl p-5 border shadow-sm flex flex-col items-center text-center justify-between cursor-pointer group ${
-                isDark
-                  ? 'bg-zinc-900/90 border-zinc-800'
-                  : 'bg-white border-neutral-300'
-              }`}
+              direction="up"
+              distance={24}
+              scale={0.96}
+              delay={idx * 100}
+              duration={600}
             >
-              {/* Logo Container */}
-              <div
-                className={`w-14 h-14 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-200 border ${
-                  isDark
-                    ? 'bg-black border-zinc-800 group-hover:border-violet-500/50'
-                    : 'bg-neutral-50 border-neutral-200 group-hover:border-violet-500/50'
-                }`}
-              >
-                {renderLogo(cert.iconType)}
-              </div>
-
-              {/* Title & Issuer */}
-              <div className="flex-1 flex flex-col justify-center">
-                <h3
-                  className={`text-sm font-black transition-colors line-clamp-2 ${
+              <TiltCard isDark={isDark} maxTilt={7} className="h-full">
+                <div
+                  onClick={() => onSelectCertificate(cert)}
+                  className={`portfolio-card h-full rounded-2xl p-5 border shadow-sm flex flex-col items-center text-center justify-between cursor-pointer group ${
                     isDark
-                      ? 'text-white group-hover:text-violet-300'
-                      : 'text-black group-hover:text-violet-700'
+                      ? 'bg-zinc-900/90 border-zinc-800'
+                      : 'bg-white border-neutral-300'
                   }`}
                 >
-                  {cert.name}
-                </h3>
-                <p
-                  className={`text-xs mt-1 font-bold ${
-                    isDark ? 'text-zinc-400' : 'text-neutral-600'
-                  }`}
-                >
-                  {cert.issuer}
-                </p>
-              </div>
+                  {/* Logo Container with Smooth Hover Scaling */}
+                  <div
+                    className={`w-14 h-14 rounded-xl flex items-center justify-center mb-4 transition-all duration-300 group-hover:scale-110 group-hover:border-violet-500/60 group-hover:shadow-[0_0_15px_rgba(109,40,217,0.3)] border ${
+                      isDark
+                        ? 'bg-black border-zinc-800'
+                        : 'bg-neutral-50 border-neutral-200'
+                    }`}
+                  >
+                    {renderLogo(cert.iconType)}
+                  </div>
 
-              {/* Issue Date & View badge */}
-              <div
-                className={`mt-4 pt-3 border-t w-full flex items-center justify-between text-xs ${
-                  isDark ? 'border-zinc-800' : 'border-neutral-200'
-                }`}
-              >
-                <span className={isDark ? 'text-zinc-500' : 'text-neutral-500'}>
-                  {cert.issueDate}
-                </span>
-                <span
-                  className={`inline-flex items-center gap-1 font-extrabold text-[11px] transition-colors ${
-                    isDark
-                      ? 'text-zinc-300 group-hover:text-violet-400'
-                      : 'text-black group-hover:text-violet-600'
-                  }`}
-                >
-                  <span>View</span>
-                  <ExternalLink className="w-3 h-3 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                </span>
-              </div>
-            </div>
+                  {/* Title & Issuer */}
+                  <div className="flex-1 flex flex-col justify-center">
+                    <h3
+                      className={`text-sm font-black transition-colors line-clamp-2 ${
+                        isDark
+                          ? 'text-white group-hover:text-violet-300'
+                          : 'text-black group-hover:text-violet-700'
+                      }`}
+                    >
+                      {cert.name}
+                    </h3>
+                    <p
+                      className={`text-xs mt-1 font-bold ${
+                        isDark ? 'text-zinc-400' : 'text-neutral-600'
+                      }`}
+                    >
+                      {cert.issuer}
+                    </p>
+                  </div>
+
+                  {/* Issue Date & View badge */}
+                  <div
+                    className={`mt-4 pt-3 border-t w-full flex items-center justify-between text-xs transition-colors ${
+                      isDark ? 'border-zinc-800' : 'border-neutral-200'
+                    }`}
+                  >
+                    <span className={isDark ? 'text-zinc-500' : 'text-neutral-500'}>
+                      {cert.issueDate}
+                    </span>
+                    <span
+                      className={`inline-flex items-center gap-1 font-extrabold text-[11px] transition-colors ${
+                        isDark
+                          ? 'text-zinc-300 group-hover:text-violet-400'
+                          : 'text-black group-hover:text-violet-600'
+                      }`}
+                    >
+                      <span>View</span>
+                      <ExternalLink className="w-3 h-3 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                    </span>
+                  </div>
+                </div>
+              </TiltCard>
+            </ScrollReveal>
           ))}
         </div>
 
