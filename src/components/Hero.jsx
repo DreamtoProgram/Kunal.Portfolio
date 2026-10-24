@@ -164,7 +164,7 @@ export const Hero = ({ isDark, onOpenResume }) => {
                   <img
                     src="/profile.png"
                     alt={personalInfo.fullName}
-                    className="w-full h-full object-cover object-top select-none"
+                    className="w-full h-full object-cover object-center select-none"
                     onError={(e) => {
                       e.target.src = 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=600';
                     }}
