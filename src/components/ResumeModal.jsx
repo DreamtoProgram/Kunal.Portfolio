@@ -4,9 +4,16 @@ import { personalInfo } from '../data/portfolioData';
 
 export const ResumeModal = ({ isDark, onClose }) => {
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/75 backdrop-blur-sm animate-fadeIn">
+    <div
+      onClick={onClose}
+      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/75 backdrop-blur-sm animate-fadeIn cursor-pointer"
+      role="dialog"
+      aria-modal="true"
+      aria-label={`${personalInfo.fullName} Resume`}
+    >
       <div
-        className={`rounded-2xl max-w-4xl w-full max-h-[94vh] flex flex-col shadow-2xl overflow-hidden animate-scaleUp border transition-colors ${
+        onClick={(e) => e.stopPropagation()}
+        className={`rounded-2xl max-w-4xl w-full max-h-[94vh] flex flex-col shadow-2xl overflow-hidden overscroll-contain animate-scaleUp border transition-colors cursor-default ${
           isDark ? 'bg-zinc-950 border-zinc-800' : 'bg-white border-neutral-300'
         }`}
       >
