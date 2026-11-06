@@ -61,7 +61,7 @@ export const About = ({ isDark }) => {
           <div className="lg:col-span-7 space-y-5 leading-relaxed text-base">
             <ScrollReveal direction="up" distance={18} delay={80} duration={600}>
               <p className={`text-lg font-bold ${isDark ? 'text-white' : 'text-black'}`}>
-                I'm <span className="text-violet-600 dark:text-violet-400">Kunal</span>, and I'm currently focused on building my skills in{' '}
+                I'm <span className={isDark ? 'text-violet-400' : 'text-violet-600'}>Kunal</span>, and I'm currently focused on building my skills in{' '}
                 <span className="underline decoration-violet-500/40 decoration-2 underline-offset-4 font-extrabold hover:text-violet-600 dark:hover:text-violet-400 transition-colors">AI</span>,{' '}
                 <span className="underline decoration-violet-500/40 decoration-2 underline-offset-4 font-extrabold hover:text-violet-600 dark:hover:text-violet-400 transition-colors">data</span>, and{' '}
                 <span className="underline decoration-violet-500/40 decoration-2 underline-offset-4 font-extrabold hover:text-violet-600 dark:hover:text-violet-400 transition-colors">software development</span>.
@@ -76,7 +76,11 @@ export const About = ({ isDark }) => {
 
             <ScrollReveal direction="up" distance={18} delay={280} duration={600}>
               <p className={isDark ? 'text-zinc-300' : 'text-neutral-700'}>
-                Right now, I'm exploring areas like <strong className="text-black dark:text-white font-bold">Python</strong>, <strong className="text-black dark:text-white font-bold">AI</strong>, <strong className="text-black dark:text-white font-bold">data engineering</strong>, and <strong className="text-black dark:text-white font-bold">problem-solving</strong>. I'm still early in my journey, so I don't want to pretend that I already know everything. What I can say is that I'm consistently working on improving my skills and trying to understand things properly instead of just memorizing them.
+                Right now, I'm exploring areas like{' '}
+                <strong className={`font-bold transition-colors ${isDark ? 'text-white' : 'text-black'}`}>Python</strong>,{' '}
+                <strong className={`font-bold transition-colors ${isDark ? 'text-white' : 'text-black'}`}>AI</strong>,{' '}
+                <strong className={`font-bold transition-colors ${isDark ? 'text-white' : 'text-black'}`}>data engineering</strong>, and{' '}
+                <strong className={`font-bold transition-colors ${isDark ? 'text-white' : 'text-black'}`}>problem-solving</strong>. I'm still early in my journey, so I don't want to pretend that I already know everything. What I can say is that I'm consistently working on improving my skills and trying to understand things properly instead of just memorizing them.
               </p>
             </ScrollReveal>
           </div>
