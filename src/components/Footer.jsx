@@ -78,7 +78,7 @@ export const Footer = ({ isDark }) => {
         <MagneticButton strength={0.25} maxOffset={5}>
           <button
             onClick={scrollToTop}
-            className={`w-10 h-10 rounded-xl flex items-center justify-center shadow-lg focus:outline-none transition-colors ${
+            className={`home-btn-shine home-btn-glow w-10 h-10 rounded-xl flex items-center justify-center shadow-lg focus:outline-none transition-colors ${
               isDark
                 ? 'bg-white text-black hover:bg-zinc-200 shadow-white/10'
                 : 'bg-black hover:bg-neutral-800 text-white shadow-black/20'

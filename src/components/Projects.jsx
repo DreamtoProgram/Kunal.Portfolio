@@ -151,7 +151,7 @@ export const Projects = ({ isDark, onSelectProject }) => {
                       <MagneticButton as="div" className="w-full">
                         <button
                           onClick={() => onSelectProject(project)}
-                          className={`w-full py-2.5 px-3 rounded-xl font-extrabold text-xs sm:text-sm flex items-center justify-center gap-1.5 shadow-sm focus:outline-none transition-all duration-200 ${
+                          className={`home-btn-shine home-btn-glow w-full py-2.5 px-3 rounded-xl font-extrabold text-xs sm:text-sm flex items-center justify-center gap-1.5 shadow-sm focus:outline-none transition-all duration-200 ${
                             isDark
                               ? 'bg-white text-black hover:bg-zinc-200 shadow-white/5'
                               : 'bg-black text-white hover:bg-neutral-800'
@@ -171,7 +171,7 @@ export const Projects = ({ isDark, onSelectProject }) => {
                           href={project.githubUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className={`w-full py-2.5 px-3 rounded-xl font-extrabold text-xs sm:text-sm flex items-center justify-center gap-1.5 shadow-2xs focus:outline-none border-2 transition-colors ${
+                          className={`home-btn-shine home-btn-glow w-full py-2.5 px-3 rounded-xl font-extrabold text-xs sm:text-sm flex items-center justify-center gap-1.5 shadow-sm focus:outline-none border-2 transition-colors ${
                             isDark
                               ? 'bg-zinc-900 hover:bg-zinc-800 text-white border-zinc-700 hover:border-violet-400'
                               : 'bg-white hover:bg-neutral-100 text-black border-neutral-300 hover:border-violet-600'

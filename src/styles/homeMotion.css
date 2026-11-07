@@ -211,7 +211,14 @@
   position: relative;
   overflow: hidden;
   isolation: isolate;
-  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, background-color 0.2s ease, border-color 0.2s ease;
+  background-clip: padding-box;
+  -webkit-mask-image: -webkit-radial-gradient(white, black);
+  mask-image: radial-gradient(white, black);
+  transform: translateZ(0);
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.25s ease,
+              background-color 0.2s ease,
+              border-color 0.2s ease;
 }
 
 .home-btn-shine::after {
@@ -221,6 +228,7 @@
   left: -120%;
   width: 70%;
   height: 100%;
+  border-radius: inherit;
   background: linear-gradient(
     105deg,
     transparent 0%,
@@ -239,8 +247,21 @@
   left: 170%;
 }
 
+.home-btn-glow {
+  border-radius: inherit;
+}
+
 .home-btn-glow:hover {
   box-shadow: 0 0 25px rgba(109, 40, 217, 0.35), 0 8px 20px -4px rgba(109, 40, 217, 0.25);
+}
+
+.dark .home-btn-glow:hover {
+  box-shadow: 0 0 25px rgba(139, 92, 246, 0.45), 0 8px 20px -4px rgba(139, 92, 246, 0.3);
+}
+
+.home-btn-shine:active,
+.home-btn-glow:active {
+  transform: scale(0.98);
 }
 
 /* --------------------------------------------------------------------------
@@ -274,6 +295,9 @@
    -------------------------------------------------------------------------- */
 
 .home-social-icon {
+  background-clip: padding-box;
+  transform: translateZ(0);
+  backface-visibility: hidden;
   transition: transform 0.24s cubic-bezier(0.16, 1, 0.3, 1),
               color 0.2s ease,
               border-color 0.2s ease,

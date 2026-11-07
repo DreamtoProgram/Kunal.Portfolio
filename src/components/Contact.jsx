@@ -210,7 +210,7 @@ export const Contact = ({ isDark }) => {
                     <button
                       type="button"
                       onClick={handleReset}
-                      className={`px-5 py-2.5 rounded-xl text-sm font-extrabold shadow-sm focus:outline-none ${
+                      className={`home-btn-shine home-btn-glow px-5 py-2.5 rounded-xl text-sm font-extrabold shadow-sm focus:outline-none ${
                         isDark
                           ? 'bg-white text-black hover:bg-zinc-200'
                           : 'bg-black text-white hover:bg-neutral-800'
@@ -299,7 +299,7 @@ export const Contact = ({ isDark }) => {
                       <button
                         type="submit"
                         disabled={status === 'submitting'}
-                        className={`group inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-extrabold text-sm sm:text-base disabled:opacity-60 disabled:cursor-not-allowed focus:outline-none shadow-md transition-all duration-200 ${
+                        className={`home-btn-shine home-btn-glow group inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-extrabold text-sm sm:text-base disabled:opacity-60 disabled:cursor-not-allowed focus:outline-none shadow-md transition-all duration-200 ${
                           isDark
                             ? 'bg-white text-black hover:bg-zinc-200 shadow-white/10'
                             : 'bg-black hover:bg-neutral-800 text-white shadow-black/10'

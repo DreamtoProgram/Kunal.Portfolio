@@ -122,7 +122,7 @@ export const Navbar = ({ isDark, activeSection, onOpenResume }) => {
               <MagneticButton as="div" strength={0.2} maxOffset={4}>
                 <button
                   onClick={onOpenResume}
-                  className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold shadow-sm focus:outline-none transition-colors ${
+                  className={`home-btn-shine home-btn-glow inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold shadow-sm focus:outline-none transition-colors ${
                     isDark
                       ? 'bg-white hover:bg-zinc-200 text-black shadow-white/5'
                       : 'bg-black hover:bg-neutral-800 text-white'

@@ -117,7 +117,7 @@ export const Education = ({ isDark }) => {
                       }`}
                     >
                       <span
-                        className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-extrabold text-xs sm:text-sm border shadow-2xs transition-all duration-200 group-hover:scale-105 group-hover:border-violet-500/50 ${
+                        className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-extrabold text-xs sm:text-sm border shadow-sm transition-all duration-200 group-hover:scale-105 group-hover:border-violet-500/50 ${
                           isDark
                             ? 'bg-white text-black border-white'
                             : 'bg-black text-white border-black'

@@ -143,7 +143,7 @@ export const Hero = ({ isDark, onOpenResume }) => {
               {/* Status / Availability Badge with Typing Role */}
               <div className="home-fade-up home-delay-3 pt-1 flex justify-center lg:justify-start">
                 <div
-                  className={`inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full border text-xs font-bold shadow-2xs transition-colors ${
+                  className={`inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full border text-xs font-bold shadow-sm transition-colors ${
                     isDark
                       ? 'bg-zinc-900 border-zinc-700 text-white'
                       : 'bg-white border-neutral-300 text-black'
@@ -230,8 +230,8 @@ export const Hero = ({ isDark, onOpenResume }) => {
                 onClick={onOpenResume}
                 className={`home-btn-shine home-btn-glow w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl font-extrabold text-sm sm:text-base border-2 focus:outline-none ${
                   isDark
-                    ? 'bg-zinc-900 hover:bg-zinc-800 text-white border-zinc-700 hover:border-violet-500 shadow-2xs'
-                    : 'bg-white hover:bg-neutral-100 text-black border-black hover:border-violet-600 shadow-2xs'
+                    ? 'bg-zinc-900 hover:bg-zinc-800 text-white border-zinc-700 hover:border-violet-500 shadow-sm'
+                    : 'bg-white hover:bg-neutral-100 text-black border-black hover:border-violet-600 shadow-sm'
                 }`}
               >
                 <FileText className="w-4 h-4" />
@@ -253,7 +253,7 @@ export const Hero = ({ isDark, onOpenResume }) => {
                 href={personalInfo.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`home-social-icon p-2.5 rounded-xl border shadow-2xs ${
+                className={`home-social-icon p-2.5 rounded-xl border shadow-sm ${
                   isDark
                     ? 'bg-zinc-900 text-white border-zinc-800'
                     : 'bg-neutral-100 text-black border-neutral-300'
@@ -267,7 +267,7 @@ export const Hero = ({ isDark, onOpenResume }) => {
                 href={personalInfo.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`home-social-icon p-2.5 rounded-xl border shadow-2xs ${
+                className={`home-social-icon p-2.5 rounded-xl border shadow-sm ${
                   isDark
                     ? 'bg-zinc-900 text-white border-zinc-800'
                     : 'bg-neutral-100 text-black border-neutral-300'

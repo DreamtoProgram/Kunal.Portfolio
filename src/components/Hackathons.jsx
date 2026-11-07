@@ -161,7 +161,7 @@ export const Hackathons = ({ isDark, onSelectCertificate }) => {
                     className={`p-4 rounded-xl border mb-6 flex items-start gap-3 ${
                       isDark
                         ? 'bg-zinc-900/90 border-zinc-700/80 text-zinc-200'
-                        : 'bg-white border-neutral-300 text-neutral-800 shadow-2xs'
+                        : 'bg-white border-neutral-300 text-neutral-800 shadow-sm'
                     }`}
                   >
                     <Sparkles className={`w-5 h-5 flex-shrink-0 mt-0.5 ${isDark ? 'text-white' : 'text-black'}`} />
@@ -381,7 +381,7 @@ export const Hackathons = ({ isDark, onSelectCertificate }) => {
                               href={cert.verifyUrl}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className={`home-btn-shine w-full py-2.5 px-3 rounded-xl font-extrabold text-xs sm:text-sm flex items-center justify-center gap-1.5 shadow-2xs focus:outline-none border-2 transition-colors ${
+                              className={`home-btn-shine home-btn-glow w-full py-2.5 px-3 rounded-xl font-extrabold text-xs sm:text-sm flex items-center justify-center gap-1.5 shadow-sm focus:outline-none border-2 transition-colors ${
                                 isDark
                                   ? 'bg-zinc-900 hover:bg-zinc-800 text-white border-zinc-700 hover:border-violet-400'
                                   : 'bg-white hover:bg-neutral-100 text-black border-neutral-300 hover:border-violet-600'

@@ -5,8 +5,8 @@ export const MagneticButton = ({
   className = '',
   maxOffset = 6, // subtle magnetic pull in px (5-6px)
   strength = 0.2,
-  shine = true,
-  glow = true,
+  shine = false,
+  glow = false,
   as: Component = 'div',
   ...rest
 }) => {
@@ -66,7 +66,7 @@ export const MagneticButton = ({
       ref={btnRef}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className={`relative inline-block transition-transform duration-200 ease-out will-change-transform ${shineClass} ${glowClass} ${className}`}
+      className={`relative inline-block transition-transform duration-200 ease-out will-change-transform rounded-xl ${shineClass} ${glowClass} ${className}`}
       style={{
         transform: isMobile ? undefined : `translate3d(${offset.x.toFixed(1)}px, ${offset.y.toFixed(1)}px, 0)`
       }}
