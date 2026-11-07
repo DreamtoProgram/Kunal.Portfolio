@@ -35,11 +35,18 @@ export const CertificateModal = ({ isDark, certificate, onClose }) => {
   const hasImage = Boolean(certificate.imageUrl);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-sm animate-fadeIn">
+    <div
+      onClick={onClose}
+      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-sm animate-fadeIn cursor-pointer"
+      role="dialog"
+      aria-modal="true"
+      aria-label={certificate.fullName || certificate.name}
+    >
       <div
+        onClick={(e) => e.stopPropagation()}
         className={`rounded-2xl ${
           hasImage ? 'max-w-2xl' : 'max-w-lg'
-        } w-full max-h-[90vh] overflow-y-auto shadow-2xl border transform animate-scaleUp ${
+        } w-full max-h-[90vh] overflow-y-auto overscroll-contain shadow-2xl border transform animate-scaleUp cursor-default ${
           isDark ? 'bg-zinc-950 border-zinc-800 text-white' : 'bg-white border-neutral-300 text-black'
         }`}
       >
